@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "name": "Jon Doe",
+    "username": "Jon",
+    "email": "test@mail.com",
+    "bio": "I am a developer",
+    "profile_picture": "",
+    "password": "password",
+    "posts": [1, 2, 3],
+    "friends": [2, 3]
+  }
+]

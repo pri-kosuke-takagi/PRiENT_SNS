@@ -1,11 +1,24 @@
-class User {
-    constructor(username, email, bio = "", profilePicture = "") {
+export class User {
+    constructor(name, username, email, bio = "", profilePicture = "", password) {
+        this.name = name;
         this.username = username;
         this.email = email;
         this.bio = bio;
         this.profilePicture = profilePicture;
+        this.password = password;
         this.friends = [];
         this.posts = [];
+    }
+
+    login(email, password, users) {
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+            console.log('Login successful');
+            return user;
+        } else {
+            console.log('Login failed');
+            return null;
+        }
     }
 
     addFriend(friend) {
