@@ -1,0 +1,66 @@
+:root {
+  /* Prient theme */
+  --main: #67a7cc;
+  --primary: #acc9de;
+  --secondary: #e1edf5;
+  --near-white: #f5f8fa;
+  --main-white: #ffffff;
+  --main-black: #000000;
+  --main-dark: #333333;
+  --secondary-dark: #2d2d2d;
+  --third-dark: #1a1a1a;
+  --main-green: #0c6124;
+  --dark-green: #073e17;
+  --dark-green2: rgba(4, 44, 16);
+  --background: linear-gradient(
+    90deg,
+    var(--main) 0%,
+    var(--primary) 60%,
+    var(--secondary) 100%
+  );
+  --background-dark: linear-gradient(
+    90deg,
+    var(--third-dark) 0%,
+    var(--secondary-dark) 60%,
+    var(--main-dark) 100%
+  );
+  --card-color: var(--secondary);
+  --card-color-dark: rgba(255, 255, 255, 0.8);
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--main-black);
+}
+
+.container-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+/* ここからダークテーマ用設定 */
+@media (prefers-color-scheme: dark) {
+  body,
+  html {
+    background: var(--background-dark);
+    color: var(--main-white);
+    min-height: 100%;
+  }
+}
