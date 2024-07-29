@@ -6,7 +6,7 @@
     "accountName": "jondoe777",
     "email": "test@mail.com",
     "bio": "I am a developer",
-    "profile_picture": "/assets/shrine.jpg",
+    "profilePicture": "/assets/shrine.jpg",
     "password": "password",
     "posts": [1],
     "follows": [2, 3]
@@ -18,7 +18,7 @@
     "accountName": "kosuke999",
     "email": "kosuke@mail.com",
     "bio": "Hello",
-    "profile_picture": "/assets/melon.jpg",
+    "profilePicture": "/assets/melon.jpg",
     "password": "password",
     "posts": [2, 4],
     "follows": [1, 3]
@@ -30,7 +30,7 @@
     "accountName": "test02",
     "email": "test02@mail.com",
     "bio": "Bye",
-    "profile_picture": "/assets/sotetsu.jpg",
+    "profilePicture": "/assets/sotetsu.jpg",
     "password": "password",
     "posts": [3],
     "follows": [2, 3]

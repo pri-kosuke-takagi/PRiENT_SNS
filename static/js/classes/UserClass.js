@@ -20,6 +20,8 @@ export class User {
         const user = users.find(u => u.email === email && u.password === password);
         if (user) {
             console.log('Login successful');
+            // セッションストレージにログインしたユーザを保存する。
+            sessionStorage.setItem('user', JSON.stringify(user));
             return user;
         } else {
             console.log('Login failed');
