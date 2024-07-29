@@ -1,7 +1,10 @@
+import { createUrlFromImageFile } from "../utils/createUrlFromImageFile.js";
 export class User {
-    constructor(name, username, email, bio = "", profilePicture = "", password) {
-        this.name = name;
-        this.username = username;
+    constructor(id, firstName, lastName, accountName, email, password, bio = "", profilePicture = "") {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.accountName = accountName;
         this.email = email;
         this.bio = bio;
         this.profilePicture = profilePicture;
@@ -10,6 +13,9 @@ export class User {
         this.posts = [];
     }
 
+    /**
+     * ログインするメソッド 
+     */
     login(email, password, users) {
         const user = users.find(u => u.email === email && u.password === password);
         if (user) {
@@ -17,6 +23,29 @@ export class User {
             return user;
         } else {
             console.log('Login failed');
+            return null;
+        }
+    }
+
+    /**
+     * ユーザを登録するメソッド 
+     * @returns {User | null} 登録したユーザ or null
+     */
+    async register(firstName, lastName, accountName, email, password, bio, profilePicture, users) {
+        try {
+            if (users.find(u => u.email === email)) {
+                console.log('Email already exists');
+                return null;
+            }
+            
+            let urlOfBlob = await createUrlFromImageFile(profilePicture);
+            console.log('This is urlOfBlob: ', urlOfBlob);
+
+            const id = users.length + 1;
+            const user = new User(id, firstName, lastName, accountName, email, password, bio, urlOfBlob);
+            return user;
+        } catch (error) {
+            console.error('Error registering user: ', error);
             return null;
         }
     }
