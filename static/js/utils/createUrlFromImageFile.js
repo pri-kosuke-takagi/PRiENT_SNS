@@ -10,6 +10,8 @@ export const createUrlFromImageFile = (file) => {
             const blob = new Blob([arrayBuffer], { type: file.type });
 
             const imageUrl = URL.createObjectURL(blob);
+            // 例: imageUrl
+            // "blob:http://127.0.0.1:5500/46c22055-fc1d-46e4-a1f9-b945312beacf"
             console.log('This is imageUrl: ', imageUrl);
             resolve(imageUrl);
         };

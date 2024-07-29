@@ -33,8 +33,9 @@ const handleRegister = async (e, users) => {
         // ユーザ登録に成功した場合は、登録したユーザをusersに追加する。
         storeUserDataToLocalStorage(registeredUser);
         // ログインに成功した場合は、ユーザデータをセッションストレージに保存し、
-        // ユーザのプロフィールページにリダイレクトする。
+        // ホーム画面にリダイレクトする。
         alert('register successful');
+        window.location.href = '/html/home.html'; 
     } else {
         // ログインに失敗した場合は、エラーメッセージを表示する。
         const error = document.querySelector('#error');
@@ -56,7 +57,7 @@ window.onload = async () => {
     localStorage.setItem('users', JSON.stringify(users));
     console.log('This is users: ', users);
 
-    // ログインフォームのsubmitイベントをリッスンする。
+    // ユーザ登録フォームのsubmitイベントをリッスンする。
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         handleRegister(e, users);

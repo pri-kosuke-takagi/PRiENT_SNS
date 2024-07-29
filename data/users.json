@@ -6,7 +6,7 @@
     "accountName": "jondoe777",
     "email": "test@mail.com",
     "bio": "I am a developer",
-    "profile_picture": "blob:http://127.0.0.1:5500/46c22055-fc1d-46e4-a1f9-b945312beacf",
+    "profile_picture": "/assets/shrine.jpg",
     "password": "password",
     "posts": [1, 2, 3],
     "friends": [2, 3]
