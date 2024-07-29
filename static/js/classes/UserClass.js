@@ -9,8 +9,8 @@ export class User {
         this.bio = bio;
         this.profilePicture = profilePicture;
         this.password = password;
-        this.friends = [];
         this.posts = [];
+        this.follows = [];
     }
 
     /**

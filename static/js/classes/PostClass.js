@@ -1,8 +1,10 @@
 class Post {
-    constructor(id, author, content, timestamp = new Date()) {
+    constructor(id, author, title, content, imageUrl, timestamp = new Date()) {
         this.id = id;
         this.author = author;
+        this.title = title;
         this.content = content;
+        this.imageUrl = imageUrl;
         this.timestamp = timestamp;
         this.likes = 0;
         this.comments = [];

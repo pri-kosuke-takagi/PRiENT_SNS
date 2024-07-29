@@ -8,7 +8,31 @@
     "bio": "I am a developer",
     "profile_picture": "/assets/shrine.jpg",
     "password": "password",
-    "posts": [1, 2, 3],
-    "friends": [2, 3]
+    "posts": [1],
+    "follows": [2, 3]
+  },
+  {
+    "id": 2,
+    "firstName": "Kosuke",
+    "lastName": "Takagi",
+    "accountName": "kosuke999",
+    "email": "kosuke@mail.com",
+    "bio": "Hello",
+    "profile_picture": "/assets/melon.jpg",
+    "password": "password",
+    "posts": [2, 4],
+    "follows": [1, 3]
+  },
+  {
+    "id": 3,
+    "firstName": "Test",
+    "lastName": "02",
+    "accountName": "test02",
+    "email": "test02@mail.com",
+    "bio": "Bye",
+    "profile_picture": "/assets/sotetsu.jpg",
+    "password": "password",
+    "posts": [3],
+    "follows": [2, 3]
   }
 ]
