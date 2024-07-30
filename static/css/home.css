@@ -18,3 +18,8 @@
 .posted-date {
   font-size: 0.6rem;
 }
+
+/* Postのいいね */
+.like-button {
+  cursor: pointer;
+}

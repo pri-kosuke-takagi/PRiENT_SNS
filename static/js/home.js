@@ -46,7 +46,8 @@ const displayPosts = (posts, loggedInUser) => {
 
         // 投稿の情報を取得し、投稿のHTMLを作成する。
         const classifiedPost = new Post(post.id, post.author, post.title, post.content, post.imageUrl, post.timestamp, post.likes, post.comments);
-        const postElement = classifiedPost.createPostElement();
+        console.log('This is classifiedPost: ', classifiedPost);
+        const postElement = classifiedPost.createPostElement(classifiedLoggedInUser);
 
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
         const postCard = document.createElement('div');
