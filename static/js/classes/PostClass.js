@@ -17,11 +17,13 @@ export class Post {
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
         postDiv.innerHTML = `
-            <h3>${this.title}</h3>
-            <p>${this.content}</p>
-            <img src="${this.imageUrl}" alt="post-image" />
-            <p>${this.formatDate()}</p>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="fs-4">${this.title}</div>
+                <div class="posted-date">${this.formatDate()}</div>
+            </div>
+            <img src="${this.imageUrl}" alt="post-image" class="post-image" />
             <p>${this.likes} likes</p>
+            <p>${this.content}</p>
             <button class="like-button" data-id="${this.id}">Like</button>
             <button class="comment-button" data-id="${this.id}">Comment</button>
             <div class="comments-div">

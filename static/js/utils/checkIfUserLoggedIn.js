@@ -1,10 +1,12 @@
+import { getUserFromKey } from './getUserFromKey.js';
 /**
  * ユーザがログインしているかをセッションストレージからチェックする
  * @returns {User | null} ログインしているユーザ or null
  */
 export const checkIfUserLoggedIn = () => {
 
-    const loggedInUser = JSON.parse(sessionStorage.getItem('user'));
+    const userId = JSON.parse(sessionStorage.getItem('userId'));
+    const loggedInUser = getUserFromKey(userId, 'id');
     console.log('This is loggedInUser: ', loggedInUser);
 
     if (!loggedInUser) {

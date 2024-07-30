@@ -9,7 +9,7 @@
     "profilePicture": "/assets/shrine.jpg",
     "password": "password",
     "posts": [1],
-    "follows": [2, 3]
+    "follows": [2]
   },
   {
     "id": 2,
