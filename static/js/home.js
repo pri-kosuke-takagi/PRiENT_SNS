@@ -28,21 +28,23 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
     searchInput.type = 'text';
     searchInput.id = 'search-input';
     searchInput.placeholder = 'Search for users...';
-    const searchButton = document.createElement('button');
-    searchButton.id = 'search-user-button';
-    searchButton.textContent = 'Search';
+    // const searchButton = document.createElement('button');
+    // searchButton.id = 'search-user-button';
+    // searchButton.textContent = '検索';
     searchModalButtonsDiv.appendChild(searchInput);
-    searchModalButtonsDiv.appendChild(searchButton);
+    // searchModalButtonsDiv.appendChild(searchButton);
     const closeModalButton = document.createElement('i');
     closeModalButton.classList.add('fa-solid', 'fa-x', 'close-button');
     searchModalButtons.appendChild(searchModalButtonsDiv);
     searchModalButtons.appendChild(closeModalButton);
+
     searchModal.appendChild(searchModalButtons);
 
     // 検索結果部分にユーザを表示する。
     const searchResults = document.createElement('div');
     searchResults.id = 'search-results';
     const classifiedUsers = createClassifiedUsers(users);
+    console.log(classifiedUsers.filter(u => u.id !== userIdOfLoggedInUser && u.firstName.toLowerCase().includes(searchInput.value.toLowerCase())));
     classifiedUsers.forEach(user => {
         if (user.id === userIdOfLoggedInUser) {
             return;
@@ -51,6 +53,24 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
         searchResults.appendChild(userElement);
     })
     searchModal.appendChild(searchResults);
+
+    // 検索インプットのイベントリスナーを追加する。
+    searchInput.addEventListener('input', () => {
+        searchResults.innerHTML = '';
+        classifiedUsers.forEach(user => {
+            if (user.id === userIdOfLoggedInUser) {
+                return;
+            }
+            // ユーザの名前、アカウント名、バイオ、検索ワードが含まれている場合、ユーザを表示する。
+            if (user.firstName.toLowerCase().includes(searchInput.value.toLowerCase())
+            || user.lastName.toLowerCase().includes(searchInput.value.toLowerCase())
+            || user.accountName.toLowerCase().includes(searchInput.value.toLowerCase())
+            || user.bio.toLowerCase().includes(searchInput.value.toLowerCase())) {
+                const userElement = user.createProfileInSearchModal(classifiedLoggedInUser);
+                searchResults.appendChild(userElement);
+            }
+        });
+    });
 
     // クローズボタンのイベントリスナーを追加する。
     // const closeModalButton = searchModal.querySelector('.close-button');
