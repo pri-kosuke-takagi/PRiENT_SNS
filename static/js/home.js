@@ -20,19 +20,28 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
     
     const searchModal = document.createElement('div');
     searchModal.classList.add('search-modal');
-    searchModal.innerHTML = `
-        <div class="search-buttons-div d-flex gap-1 align-items-center p-2 w-100">
-            <div class="flex-grow-1 d-flex align-items-center justify-content-center gap-2">
-                <input type="text" id="search-input" placeholder="Search for users...">
-                <button id="search-user-button">Search</button>
-            </div>
-            <i class="fa-solid fa-x close-button"></i>
-        </div>
-        <div id="search-results"></div>
-    `;
+    const searchModalButtons = document.createElement('div');
+    searchModalButtons.classList.add('search-buttons-div', 'd-flex', 'gap-1', 'align-items-center', 'p-2', 'w-100');
+    const searchModalButtonsDiv = document.createElement('div');
+    searchModalButtonsDiv.classList.add('flex-grow-1', 'd-flex', 'align-items-center', 'justify-content-center', 'gap-2');
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.id = 'search-input';
+    searchInput.placeholder = 'Search for users...';
+    const searchButton = document.createElement('button');
+    searchButton.id = 'search-user-button';
+    searchButton.textContent = 'Search';
+    searchModalButtonsDiv.appendChild(searchInput);
+    searchModalButtonsDiv.appendChild(searchButton);
+    const closeModalButton = document.createElement('i');
+    closeModalButton.classList.add('fa-solid', 'fa-x', 'close-button');
+    searchModalButtons.appendChild(searchModalButtonsDiv);
+    searchModalButtons.appendChild(closeModalButton);
+    searchModal.appendChild(searchModalButtons);
 
     // 検索結果部分にユーザを表示する。
-    const searchResults = searchModal.querySelector('#search-results');
+    const searchResults = document.createElement('div');
+    searchResults.id = 'search-results';
     const classifiedUsers = createClassifiedUsers(users);
     classifiedUsers.forEach(user => {
         if (user.id === userIdOfLoggedInUser) {
@@ -41,9 +50,10 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
         const userElement = user.createProfileInSearchModal(classifiedLoggedInUser);
         searchResults.appendChild(userElement);
     })
+    searchModal.appendChild(searchResults);
 
     // クローズボタンのイベントリスナーを追加する。
-    const closeModalButton = searchModal.querySelector('.close-button');
+    // const closeModalButton = searchModal.querySelector('.close-button');
     closeModalButton.addEventListener('click', () => {
         searchModal.remove();
     });

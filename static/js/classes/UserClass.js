@@ -62,12 +62,18 @@ export class User {
     createProfileOnPost(classifiedLoggedInUser) {
         const authorDiv = document.createElement('div');
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');
-        authorDiv.innerHTML = `
-            <div class="d-flex gap-2 align-items-center justify-content-center">
-                <img src="${this.profilePicture}" alt="profile-picture" class="author-picture"/>
-                <div class="fs-6">${this.accountName}</div>
-            </div>
-        `;
+        const authorInfoDiv = document.createElement('div');
+        authorInfoDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        const accountImage = document.createElement('img');
+        accountImage.src = this.profilePicture;
+        accountImage.alt = 'profile-picture';
+        accountImage.classList.add('author-picture');
+        const accountName = document.createElement('div');
+        accountName.classList.add('fs-6');
+        accountName.textContent = this.accountName;
+        authorInfoDiv.appendChild(accountImage);
+        authorInfoDiv.appendChild(accountName);
+        authorDiv.appendChild(authorInfoDiv);
         const followButton = this.makeFollowButton(classifiedLoggedInUser);
         authorDiv.appendChild(followButton);
         return authorDiv;
@@ -92,12 +98,18 @@ export class User {
     createProfileInSearchModal(classifiedLoggedInUser) {
         const authorDiv = document.createElement('div');
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');
-        authorDiv.innerHTML = `
-            <div class="d-flex gap-2 align-items-center justify-content-center">
-                <img src="${this.profilePicture}" alt="profile-picture" class="author-picture"/>
-                <div class="fs-6">${this.accountName}</div>
-            </div>
-        `;
+        const authorInfoDiv = document.createElement('div');
+        authorInfoDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        const authorInfoImage = document.createElement('img');
+        authorInfoImage.src = this.profilePicture;
+        authorInfoImage.alt = 'profile-picture';
+        authorInfoImage.classList.add('author-picture');
+        const authorInfoName = document.createElement('div');
+        authorInfoName.classList.add('fs-6');
+        authorInfoName.textContent = this.accountName;
+        authorInfoDiv.appendChild(authorInfoImage);
+        authorInfoDiv.appendChild(authorInfoName);
+        authorDiv.appendChild(authorInfoDiv);
         const followButton = this.makeFollowButton(classifiedLoggedInUser);
         authorDiv.appendChild(followButton);
         return authorDiv;
