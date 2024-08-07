@@ -1,6 +1,6 @@
-import { fetchUserSampleData } from "./utils/fetchUserSampleData.js";
-import { storeUserDataToLocalStorage } from "./utils/storeUserDataToLocalStorage.js";
-import { User } from "./classes/UserClass.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
+import { storeUserDataToLocalStorage } from "/static/js/utils/storeUserDataToLocalStorage.js";
+import { User } from "/static/js/classes/UserClass.js";
 
 const registerForm = document.querySelector('#register-form');
 const firstNameInput = document.querySelector('#first-name');

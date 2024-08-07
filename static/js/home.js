@@ -1,10 +1,10 @@
-import { fetchUserSampleData } from "./utils/fetchUserSampleData.js";
-import { fetchPostSampleData } from "./utils/fetchPostSampleData.js";
-import { Post } from "./classes/PostClass.js";
-import { User } from "./classes/UserClass.js";
-import { checkIfUserLoggedIn } from "./utils/checkIfUserLoggedIn.js";
-import { getUserFromKey } from "./utils/getUserFromKey.js";
-import { createClassifiedUsers } from "./utils/createClassifiedUsers.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
+import { fetchPostSampleData } from "/static/js/utils/fetchPostSampleData.js";
+import { Post } from "/static/js/classes/PostClass.js";
+import { User } from "/static/js/classes/UserClass.js";
+import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
+import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
+import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
 
 const postsDiv = document.querySelector('#posts-div');
 const searchButton = document.querySelector('#search-button');
@@ -28,6 +28,7 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
     searchInput.type = 'text';
     searchInput.id = 'search-input';
     searchInput.placeholder = 'Search for users...';
+    // 検索ボタンは無くても機能的には問題ないので、コメントアウト。
     // const searchButton = document.createElement('button');
     // searchButton.id = 'search-user-button';
     // searchButton.textContent = '検索';
@@ -93,6 +94,10 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
 
     postsDiv.innerHTML = '';
     posts.forEach((post, index) => {
+        // 必須パラメータがtrue出ない場合は、投稿を表示しない。
+        if (!post || !post.title || !post.content || !post.author) {
+            return;
+        }
         // ログインしているユーザが投稿した投稿は表示しないように。
         if (classifiedLoggedInUser && post.author === userIdOfLoggedInUser) {
             return;

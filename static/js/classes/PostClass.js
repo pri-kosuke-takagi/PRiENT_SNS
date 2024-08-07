@@ -1,4 +1,4 @@
-import { updatePostData } from "../utils/updatePostData.js";
+import { updatePostData } from "/static/js/utils/updatePostData.js";
 export class Post {
     constructor(id, author, title, content, imageUrl, timestamp, likes, comments) {
         this.id = id;
@@ -9,6 +9,25 @@ export class Post {
         this.timestamp = timestamp;
         this.likes = likes;
         this.comments = comments;
+    }
+
+    /**
+     * 投稿された時に呼び出されるメソッド
+     */
+    createPost() {
+        const post = {
+            id: this.id,
+            author: this.author,
+            title: this.title,
+            content: this.content,
+            imageUrl: this.imageUrl,
+            timestamp: this.timestamp,
+            likes: this.likes,
+            comments: this.comments
+        };
+
+        console.log('This is post: ', post);
+        return post;
     }
 
     /**
