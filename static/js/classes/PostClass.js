@@ -21,12 +21,12 @@ export class Post {
             title: this.title,
             content: this.content,
             imageUrl: this.imageUrl,
-            timestamp: this.timestamp,
+            timestamp: new Date().getTime(),
             likes: this.likes,
             comments: this.comments
         };
 
-        console.log('This is post: ', post);
+        console.log('This is post from class: ', post);
         return post;
     }
 
@@ -37,29 +37,61 @@ export class Post {
         const isLiked = this.likes.includes(user.id);
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
-        postDiv.innerHTML = `
-            <div class="d-flex align-items-center justify-content-between">
-                <div class="fs-4">${this.title}</div>
-                <div class="posted-date">${this.formatDate()}</div>
-            </div>
-            <img src="${this.imageUrl}" alt="post-image" class="post-image" />
-            <p>${this.content}</p>
-            <div class="likes-div d-flex gap-2">
-                <div class="like-button" data-id="${this.id}"></div>
-                ${this.likes.length > 0 ? `<div class="likes-count">${this.likes.length} likes</div>` : ''}
-            </div>
-            <button class="comment-button" data-id="${this.id}">Comment</button>
-            <div class="comments-div">
-                <h4>Comments</h4>
-                <ul>
-                    ${this.comments.map(comment =>
-                        `<li>${comment}</li>`
-                    ).join('')}
-                </ul>
-            </div>
-        `;
+        // Title部分を作成
+        const postTitle = document.createElement('div');
+        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add('fs-4');
+        titleDiv.textContent = this.title;
+        const postedDate = document.createElement('div');
+        postedDate.classList.add('posted-date');
+        postedDate.textContent = this.formatDate();
+        postTitle.appendChild(titleDiv);
+        postTitle.appendChild(postedDate);
+        // 画像部分を作成
+        const postImage = document.createElement('img');
+        if (this.imageUrl) {
+            postImage.alt = 'post-image-' + this.id;
+            postImage.classList.add('post-image');
+            if (typeof this.imageUrl === 'string') {
+                postImage.src = this.imageUrl;
+            } else {
+                console.log('This is imageUrl: ', this.imageUrl);
+                // console.log('This is imageUrl: ', URL.createObjectURL(this.imageUrl));
+            }
+        }
+        // 本文部分を作成
+        const postContent = document.createElement('p');
+        postContent.textContent = this.content;
+        // いいねボタン部分を作成
+        const likesDiv = document.createElement('div');
+        likesDiv.classList.add('likes-div', 'd-flex', 'gap-2');
+        const likeButton = document.createElement('div');
+        likeButton.classList.add('like-button');
+        likeButton.dataset.id = this.id;
+        // いいね数が0以上の場合は表示する
+        const likesCount = document.createElement('div');
+        likesCount.classList.add('likes-count');
+        likesCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';
+        // コメント部分を作成
+        const commentsDiv = document.createElement('div');
+        commentsDiv.classList.add('comments-div');
+        const commentButton = document.createElement('button');
+        commentButton.classList.add('comment-button');
+        commentButton.dataset.id = this.id;
+        commentButton.textContent = 'Comment';
+        // コメントリストを作成
+        const commentsList = document.createElement('ul');
+        commentsList.appendChild(document.createElement('h4'));
+        commentsList.querySelector('h4').textContent = 'Comments';
+        this.comments.forEach(comment => {
+            const commentLi = document.createElement('li');
+            commentLi.textContent = comment;
+            commentsList.appendChild(commentLi);
+        });
+        commentsDiv.appendChild(commentsList);
+
         // like-buttonのイベントリスナーを追加する
-        const likeButton = postDiv.querySelector('.like-button');
         const likeHeart = document.createElement('i');
         if (isLiked) {
             likeButton.classList.add('liked');
@@ -82,6 +114,15 @@ export class Post {
                 this.addLike(user.id);
             }
         });
+
+        postDiv.appendChild(postTitle);
+        postDiv.appendChild(postImage);
+        postDiv.appendChild(postContent);
+        likesDiv.appendChild(likeButton);
+        likesDiv.appendChild(likesCount);
+        postDiv.appendChild(likesDiv);
+        postDiv.appendChild(commentButton);
+        postDiv.appendChild(commentsDiv);
 
         return postDiv;
     }

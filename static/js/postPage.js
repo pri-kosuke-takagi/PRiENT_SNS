@@ -19,19 +19,32 @@ const postForm = document.getElementById('post-form');
  */
 const handleImageInput = async (e) => {
     e.preventDefault();
-    console.log(e.target.files)
-    const urlOfFile = await createUrlFromImageFile(e.target.files[0]);
+    console.log(imageInput.files)
+    // 画像ファイルからURLを生成する関数を呼び出す。
+    const urlOfFile = await createUrlFromImageFile(imageInput.files[0]);
     console.log('This is imageOfFile: ', urlOfFile);
     postImage.src = urlOfFile;
     postImage.classList.remove('d-none');
 }
 
+const blobToBase64 = async (blob) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
 /**
  * 投稿ボタンがクリックされた時の処理を行う関数。
  */
-const handlePostButtonClicked = (e, posts, user) => {
+const handlePostButtonClicked = async (e, posts, user) => {
     console.log('Post submitted');
-    const post = new Post(posts.length + 1, user.id, postTitle.value, postContent.value, postImage.src, new Date(), [], []);
+    const file = imageInput.files[0];
+    let imageData = await blobToBase64(file);
+    // imageDataの例は、data\posts.json のid:100の画像データを参照。画像データをbase64に変換するためすごく長くなる。
+    console.log('This is imageData base64ed: ', imageData);
+    const post = new Post(posts.length + 1, user.id, postTitle.value, postContent.value, imageData, new Date().getTime(), [], []);
     const createdPost = post.createPost();
     console.log('This is createdPost: ', createdPost);
 
