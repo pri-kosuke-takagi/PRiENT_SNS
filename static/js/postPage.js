@@ -27,12 +27,15 @@ const handleImageInput = async (e) => {
     postImage.classList.remove('d-none');
 }
 
-const blobToBase64 = async (blob) => {
+/**
+ * 画像データをbase64に変換する関数。
+ */
+const convertToBase64 = async (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
         reader.onerror = reject;
-        reader.readAsDataURL(blob);
+        reader.readAsDataURL(file);
     });
 }
 /**
@@ -40,8 +43,8 @@ const blobToBase64 = async (blob) => {
  */
 const handlePostButtonClicked = async (e, posts, user) => {
     console.log('Post submitted');
-    const file = imageInput.files[0];
-    let imageData = await blobToBase64(file);
+    const fileData = imageInput.files[0];
+    let imageData = await convertToBase64(fileData);
     // imageDataの例は、data\posts.json のid:100の画像データを参照。画像データをbase64に変換するためすごく長くなる。
     console.log('This is imageData base64ed: ', imageData);
     const post = new Post(posts.length + 1, user.id, postTitle.value, postContent.value, imageData, new Date().getTime(), [], []);
