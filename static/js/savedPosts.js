@@ -15,10 +15,14 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
     savedPostsDiv.innerHTML = '';
     posts.forEach((post, index) => {
 
+        const postCard = document.createElement('div');
+        postCard.classList.add(`post-card-${post.id}`);
+
         // 必須パラメータがtrueでない場合は、投稿を表示しない。
         if (!post || !post.title || !post.content || !post.author) {
             return;
         }
+
         // ログインしているユーザが投稿した投稿は表示しないように。
         if (classifiedLoggedInUser && post.author === userIdOfLoggedInUser) {
             return;
@@ -37,11 +41,9 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
         // 投稿の情報を取得し、投稿のHTMLを作成する。
         const classifiedPost = new Post(post.id, post.author, post.title, post.content, post.imageUrl, post.timestamp, post.likes, post.comments);
         console.log('This is classifiedPost: ', classifiedPost);
-        const postElement = classifiedPost.createPostElement(classifiedLoggedInUser);
+        const postElement = classifiedPost.createSavedPostElement(classifiedLoggedInUser, postCard);
 
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
-        const postCard = document.createElement('div');
-        postCard.classList.add('post-card');
         postCard.appendChild(authorDiv);
         postCard.appendChild(postElement);
 

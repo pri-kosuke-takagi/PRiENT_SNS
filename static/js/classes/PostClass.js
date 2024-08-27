@@ -32,6 +32,7 @@ export class Post {
         return post;
     }
 
+
     /**
      * 投稿をHTML要素に変換して表示させるメソッド (ホーム画面)
      */
@@ -221,4 +222,129 @@ export class Post {
         storeUserDataToLocalStorage(user);
         return user;
     }
+
+    /**
+     * 投稿をHTML要素に変換して表示させるメソッド (保存一覧画面用)
+     */
+    createSavedPostElement(user, postCard) {
+        const isLiked = this.likes.includes(user.id);
+        const postDiv = document.createElement('div');
+        postDiv.classList.add(['post']);
+
+        // Title部分を作成
+        const postTitle = document.createElement('div');
+        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add('fs-4');
+        titleDiv.textContent = this.title;
+        const postedDate = document.createElement('div');
+        postedDate.classList.add('posted-date');
+        postedDate.textContent = this.formatDate();
+        postTitle.appendChild(titleDiv);
+        postTitle.appendChild(postedDate);
+
+        // 画像部分を作成
+        const postImage = document.createElement('img');
+        if (this.imageUrl) {
+            postImage.alt = 'post-image-' + this.id;
+            postImage.classList.add('post-image');
+            if (typeof this.imageUrl === 'string') {
+                postImage.src = this.imageUrl;
+            } else {
+                console.log('This is imageUrl: ', this.imageUrl);
+                // console.log('This is imageUrl: ', URL.createObjectURL(this.imageUrl));
+            }
+        }
+
+        // 本文部分を作成
+        const postContent = document.createElement('p');
+        postContent.textContent = this.content;
+
+        // いいねボタン部分を作成
+        const likesAndSaveDiv = document.createElement('div');
+        likesAndSaveDiv.classList.add('likes-div', 'd-flex', 'gap-2');
+        const likeButton = document.createElement('div');
+        likeButton.classList.add('like-button');
+        likeButton.dataset.id = this.id;
+
+        // いいね数が0より大きい場合は表示する
+        const likesCount = document.createElement('div');
+        likesCount.classList.add('likes-count');
+        likesCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';
+
+        // like-buttonのイベントリスナーを追加する
+        const likeHeart = document.createElement('i');
+        if (isLiked) {
+            likeButton.classList.add('liked');
+            likeHeart.classList.add('fa-solid', 'fa-heart');
+        } else {
+            likeButton.classList.remove('liked');
+            likeHeart.classList.add('fa-regular', 'fa-heart');
+        }
+        likeButton.appendChild(likeHeart);
+        likeButton.addEventListener('click', async () => {
+            if (isLiked) {
+                likeButton.classList.remove('liked');
+                likeHeart.classList.remove('fa-solid');
+                likeHeart.classList.add('fa-regular');
+                this.removeLike(user.id);
+            } else {
+                likeButton.classList.add('liked');
+                likeHeart.classList.remove('fa-regular');
+                likeHeart.classList.add('fa-solid');
+                this.addLike(user.id);
+            }
+        });
+
+        // 一時保存ボタンを作成する
+        const saveButton = document.createElement('button');
+        saveButton.classList.add('save-button');
+        saveButton.textContent = '保存一覧から削除';
+
+        // 押されたら該当のPostが表示されないようにする。
+        saveButton.addEventListener('click', () => {
+            console.log('This is user: ', user);
+
+            saveButton.textContent = '保存する';
+
+            user = this.unsavePost(user);
+
+            // postCard は、ユーザプロファイルと本post用divを含むdiv。
+            postCard.classList.add('d-none');
+            console.log('This is user after savePost: ', user);
+        });
+
+        likesAndSaveDiv.appendChild(likeButton);
+        likesAndSaveDiv.appendChild(likesCount);
+        likesAndSaveDiv.appendChild(saveButton);
+
+        // コメント部分を作成
+        const commentsDiv = document.createElement('div');
+        commentsDiv.classList.add('comments-div');
+        const commentButton = document.createElement('button');
+        commentButton.classList.add('comment-button');
+        commentButton.dataset.id = this.id;
+        commentButton.textContent = 'Comment';
+
+        // コメントリストを作成
+        const commentsList = document.createElement('ul');
+        commentsList.appendChild(document.createElement('h4'));
+        commentsList.querySelector('h4').textContent = 'Comments';
+        this.comments.forEach(comment => {
+            const commentLi = document.createElement('li');
+            commentLi.textContent = comment;
+            commentsList.appendChild(commentLi);
+        });
+        commentsDiv.appendChild(commentsList);
+
+        postDiv.appendChild(postTitle);
+        postDiv.appendChild(postImage);
+        postDiv.appendChild(postContent);
+        postDiv.appendChild(likesAndSaveDiv);
+        postDiv.appendChild(commentButton);
+        postDiv.appendChild(commentsDiv);
+
+        return postDiv;
+    }
+
 }
