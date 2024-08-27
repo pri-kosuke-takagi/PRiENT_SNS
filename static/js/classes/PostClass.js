@@ -69,7 +69,7 @@ export class Post {
         const likeButton = document.createElement('div');
         likeButton.classList.add('like-button');
         likeButton.dataset.id = this.id;
-        // いいね数が0以上の場合は表示する
+        // いいね数が0より大きい場合は表示する
         const likesCount = document.createElement('div');
         likesCount.classList.add('likes-count');
         likesCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';

@@ -59,22 +59,28 @@ export class User {
     /**
      * ホーム画面のPostの上にユーザ情報を表示するHTMLを作成するためのメソッド
      */
-    createProfileOnPost(classifiedLoggedInUser) {
+    createProfileOnPost(loggedInUser) {
         const authorDiv = document.createElement('div');
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');
         const authorInfoDiv = document.createElement('div');
         authorInfoDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        const accountImageDiv = document.createElement('div');
+        accountImageDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        const accountImageLink = document.createElement('a');
+        accountImageLink.href = `/html/others_account.html?user_id=${this.id}`;
         const accountImage = document.createElement('img');
         accountImage.src = this.profilePicture;
         accountImage.alt = 'profile-picture';
         accountImage.classList.add('author-picture');
+        accountImageDiv.appendChild(accountImageLink);
+        accountImageLink.appendChild(accountImage);
         const accountName = document.createElement('div');
         accountName.classList.add('fs-6');
         accountName.textContent = this.accountName;
-        authorInfoDiv.appendChild(accountImage);
+        authorInfoDiv.appendChild(accountImageDiv);
         authorInfoDiv.appendChild(accountName);
         authorDiv.appendChild(authorInfoDiv);
-        const followButton = this.makeFollowButton(classifiedLoggedInUser);
+        const followButton = this.makeFollowButton(loggedInUser);
         authorDiv.appendChild(followButton);
         return authorDiv;
     }
@@ -95,7 +101,7 @@ export class User {
     /**
      * ホーム画面のSearchModalの部分に表示させるユーザ情報を作成するためのメソッド
      */
-    createProfileInSearchModal(classifiedLoggedInUser) {
+    createProfileInSearchModal(loggedInUser) {
         const authorDiv = document.createElement('div');
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');
         const authorInfoDiv = document.createElement('div');
@@ -110,7 +116,7 @@ export class User {
         authorInfoDiv.appendChild(authorInfoImage);
         authorInfoDiv.appendChild(authorInfoName);
         authorDiv.appendChild(authorInfoDiv);
-        const followButton = this.makeFollowButton(classifiedLoggedInUser);
+        const followButton = this.makeFollowButton(loggedInUser);
         authorDiv.appendChild(followButton);
         return authorDiv;
     }
@@ -152,27 +158,33 @@ export class User {
         return followButton;
     }
 
-    addPost(post) {
-        this.posts.push(post);
-    }
-
-    removePost(postId) {
-        this.posts = this.posts.filter(p => p.id !== postId);
-    }
-
-    updateProfile(bio, profilePicture) {
-        this.bio = bio;
-        this.profilePicture = profilePicture;
-    }
-
-    getProfile() {
-        return {
-            username: this.username,
-            email: this.email,
-            bio: this.bio,
-            profilePicture: this.profilePicture,
-            friends: this.friends,
-            posts: this.posts
-        };
+    /**
+     * ユーザ情報を他者アカウント表示画面に表示させるためのHTMLを作成するメソッド
+     */
+    createProfileOnOthersPage(loggedInUser) {
+        const authorDiv = document.createElement('div');
+        authorDiv.classList.add('user-div');
+        const authorInfoDiv = document.createElement('div');
+        authorInfoDiv.classList.add('user-info-div', 'd-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        const accountImageDiv = document.createElement('div');
+        accountImageDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        const accountImageLink = document.createElement('a');
+        accountImageLink.href = `/html/others_account.html?user_id=${this.id}`;
+        const accountImage = document.createElement('img');
+        accountImage.src = this.profilePicture;
+        accountImage.alt = 'profile-picture';
+        accountImage.classList.add('author-picture');
+        accountImageDiv.appendChild(accountImageLink);
+        accountImageLink.appendChild(accountImage);
+        const accountName = document.createElement('div');
+        accountName.classList.add('fs-3');
+        accountName.textContent = this.accountName;
+        authorInfoDiv.appendChild(accountImageDiv);
+        authorInfoDiv.appendChild(accountName);
+        authorDiv.appendChild(authorInfoDiv);
+        const followButton = this.makeFollowButton(loggedInUser);
+        followButton.classList.add('follow-button');
+        authorDiv.appendChild(followButton);
+        return authorDiv;
     }
 }
