@@ -94,7 +94,8 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
 
     postsDiv.innerHTML = '';
     posts.forEach((post, index) => {
-        // 必須パラメータがtrue出ない場合は、投稿を表示しない。
+
+        // 必須パラメータがtrueでない場合は、投稿を表示しない。
         if (!post || !post.title || !post.content || !post.author) {
             return;
         }
@@ -145,7 +146,7 @@ window.onload = async () => {
     localStorage.setItem('posts', JSON.stringify(posts));
     console.log('This is posts: ', posts);
 
-    const classifiedLoggedInUser = new User(loggedInUser.id, loggedInUser.firstName, loggedInUser.lastName, loggedInUser.accountName, loggedInUser.email, loggedInUser.password, loggedInUser.bio, loggedInUser.profilePicture, loggedInUser.posts, loggedInUser.follows);
+    const classifiedLoggedInUser = new User(loggedInUser.id, loggedInUser.firstName, loggedInUser.lastName, loggedInUser.accountName, loggedInUser.email, loggedInUser.password, loggedInUser.bio, loggedInUser.profilePicture, loggedInUser.posts, loggedInUser.follows, loggedInUser.savedPosts);
 
     displayPosts(posts, classifiedLoggedInUser);
 

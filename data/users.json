@@ -9,7 +9,8 @@
     "profilePicture": "/assets/shrine.jpg",
     "password": "password",
     "posts": [1],
-    "follows": [2]
+    "follows": [2],
+    "savedPosts": [2, 3]
   },
   {
     "id": 2,
@@ -21,7 +22,8 @@
     "profilePicture": "/assets/melon.jpg",
     "password": "password",
     "posts": [2, 4],
-    "follows": [1, 3]
+    "follows": [1, 3],
+    "savedPosts": [1]
   },
   {
     "id": 3,
@@ -33,6 +35,7 @@
     "profilePicture": "/assets/sotetsu.jpg",
     "password": "password",
     "posts": [3],
-    "follows": [2, 3]
+    "follows": [2, 3],
+    "savedPosts": []
   }
 ]

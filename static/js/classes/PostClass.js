@@ -1,4 +1,6 @@
 import { updatePostData } from "/static/js/utils/updatePostData.js";
+import { storeUserDataToLocalStorage } from "../utils/storeUserDataToLocalStorage.js";
+
 export class Post {
     constructor(id, author, title, content, imageUrl, timestamp, likes, comments) {
         this.id = id;
@@ -37,6 +39,7 @@ export class Post {
         const isLiked = this.likes.includes(user.id);
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
+
         // Title部分を作成
         const postTitle = document.createElement('div');
         postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
@@ -48,6 +51,7 @@ export class Post {
         postedDate.textContent = this.formatDate();
         postTitle.appendChild(titleDiv);
         postTitle.appendChild(postedDate);
+
         // 画像部分を作成
         const postImage = document.createElement('img');
         if (this.imageUrl) {
@@ -60,36 +64,22 @@ export class Post {
                 // console.log('This is imageUrl: ', URL.createObjectURL(this.imageUrl));
             }
         }
+
         // 本文部分を作成
         const postContent = document.createElement('p');
         postContent.textContent = this.content;
+
         // いいねボタン部分を作成
-        const likesDiv = document.createElement('div');
-        likesDiv.classList.add('likes-div', 'd-flex', 'gap-2');
+        const likesAndSaveDiv = document.createElement('div');
+        likesAndSaveDiv.classList.add('likes-div', 'd-flex', 'gap-2');
         const likeButton = document.createElement('div');
         likeButton.classList.add('like-button');
         likeButton.dataset.id = this.id;
+
         // いいね数が0より大きい場合は表示する
         const likesCount = document.createElement('div');
         likesCount.classList.add('likes-count');
         likesCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';
-        // コメント部分を作成
-        const commentsDiv = document.createElement('div');
-        commentsDiv.classList.add('comments-div');
-        const commentButton = document.createElement('button');
-        commentButton.classList.add('comment-button');
-        commentButton.dataset.id = this.id;
-        commentButton.textContent = 'Comment';
-        // コメントリストを作成
-        const commentsList = document.createElement('ul');
-        commentsList.appendChild(document.createElement('h4'));
-        commentsList.querySelector('h4').textContent = 'Comments';
-        this.comments.forEach(comment => {
-            const commentLi = document.createElement('li');
-            commentLi.textContent = comment;
-            commentsList.appendChild(commentLi);
-        });
-        commentsDiv.appendChild(commentsList);
 
         // like-buttonのイベントリスナーを追加する
         const likeHeart = document.createElement('i');
@@ -115,12 +105,51 @@ export class Post {
             }
         });
 
+        // 一時保存ボタンを作成する
+        const saveButton = document.createElement('button');
+        saveButton.classList.add('save-button');
+        saveButton.textContent = user.savedPosts.includes(this.id) ? '保存済み' : '保存する';
+
+        // 一時保存ボタンのイベントリスナーを追加する
+        saveButton.addEventListener('click', () => {
+            console.log('This is user: ', user);
+            if (saveButton.textContent === '保存済み') {
+                saveButton.textContent = '保存する';
+                user = this.unsavePost(user);
+            } else {
+                saveButton.textContent = '保存済み';
+                user = this.savePost(user);
+            }
+            console.log('This is user after savePost: ', user);
+        });
+
+        likesAndSaveDiv.appendChild(likeButton);
+        likesAndSaveDiv.appendChild(likesCount);
+        likesAndSaveDiv.appendChild(saveButton);
+
+        // コメント部分を作成
+        const commentsDiv = document.createElement('div');
+        commentsDiv.classList.add('comments-div');
+        const commentButton = document.createElement('button');
+        commentButton.classList.add('comment-button');
+        commentButton.dataset.id = this.id;
+        commentButton.textContent = 'Comment';
+
+        // コメントリストを作成
+        const commentsList = document.createElement('ul');
+        commentsList.appendChild(document.createElement('h4'));
+        commentsList.querySelector('h4').textContent = 'Comments';
+        this.comments.forEach(comment => {
+            const commentLi = document.createElement('li');
+            commentLi.textContent = comment;
+            commentsList.appendChild(commentLi);
+        });
+        commentsDiv.appendChild(commentsList);
+
         postDiv.appendChild(postTitle);
         postDiv.appendChild(postImage);
         postDiv.appendChild(postContent);
-        likesDiv.appendChild(likeButton);
-        likesDiv.appendChild(likesCount);
-        postDiv.appendChild(likesDiv);
+        postDiv.appendChild(likesAndSaveDiv);
         postDiv.appendChild(commentButton);
         postDiv.appendChild(commentsDiv);
 
@@ -175,5 +204,21 @@ export class Post {
             likes: this.likes,
             comments: this.comments
         };
+    }
+
+    savePost(user) {
+        if (!user.savedPosts.includes(this.id)) {
+            user.savedPosts.push(this.id);
+            storeUserDataToLocalStorage(user);
+            return user;
+        } else {
+            return user;
+        }
+    }
+
+    unsavePost(user) {
+        user.savedPosts = user.savedPosts.filter(p => p !== this.id);
+        storeUserDataToLocalStorage(user);
+        return user;
     }
 }

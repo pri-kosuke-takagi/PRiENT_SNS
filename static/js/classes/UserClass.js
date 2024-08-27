@@ -1,7 +1,7 @@
 import { createUrlFromImageFile } from "../utils/createUrlFromImageFile.js";
 import { updateUserData } from "../utils/updateUserData.js";
 export class User {
-    constructor(id, firstName, lastName, accountName, email, password, bio = "", profilePicture = "", posts = [], follows = []) {
+    constructor(id, firstName, lastName, accountName, email, password, bio = "", profilePicture = "", posts = [], follows = [], savedPosts) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -12,6 +12,7 @@ export class User {
         this.password = password;
         this.posts = posts;
         this.follows = follows;
+        this.savedPosts = savedPosts;
     }
 
     /**
