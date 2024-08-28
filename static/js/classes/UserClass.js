@@ -2,15 +2,17 @@ import { createUrlFromImageFile } from "../utils/createUrlFromImageFile.js";
 import { turnUserIntoUserClass } from "../utils/turnUserIntoUserClass.js";
 import { updateUserData } from "../utils/updateUserData.js";
 export class User {
-    constructor(id, firstName, lastName, accountName, email, password, bio = "", profilePicture = "", posts = [], follows = [], savedPosts = []) {
+    constructor(id, firstName, lastName, accountName, email, password, sex = "other", dateOfBirth = "", bio = "", profilePicture = "", posts = [], follows = [], savedPosts = []) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.accountName = accountName;
         this.email = email;
+        this.password = password;
+        this.sex = sex,
+        this.dateOfBirth = dateOfBirth;
         this.bio = bio;
         this.profilePicture = profilePicture;
-        this.password = password;
         this.posts = posts;
         this.follows = follows;
         this.savedPosts = savedPosts;

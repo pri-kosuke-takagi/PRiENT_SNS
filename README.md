@@ -3,6 +3,9 @@
 
 
 ## 引用元情報
+- プロファイル画面のプレースホルダ画像部分
+https://placehold.co を使用。
+
 - shrine.jpg:https://www.photo-ac.com/main/detail/111783&title=%E5%8E%B3%E5%B3%B6%E7%A5%9E%E7%A4%BE%E5%A4%A7%E9%B3%A5%E5%B1%85#goog_rewarded
 
 - sotetsu.jpg:https://www.photo-ac.com/main/detail/30232031&title=%E8%91%89%E3%82%92%E5%BA%83%E3%81%92%E3%81%9F%E3%82%BD%E3%83%86%E3%83%84#goog_rewarded 

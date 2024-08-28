@@ -135,11 +135,17 @@ window.onload = async () => {
 
     const loggedInUser = checkIfUserLoggedIn(users);
 
+    if (!loggedInUser) {
+        // ログインしていない場合は、ログインページにリダイレクトする。
+        window.location.href = '/html/login.html';
+        return;
+    }
+
+    const classifiedLoggedInUser = turnUserIntoUserClass(loggedInUser);
+
     // ユーザデータと同じように、投稿データもローカルストレージから取得する。
     let posts = localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts')) : await fetchPostSampleData();
     console.log('This is posts: ', posts);
-
-    const classifiedLoggedInUser = turnUserIntoUserClass(loggedInUser);
 
     displayPosts(posts, classifiedLoggedInUser);
 

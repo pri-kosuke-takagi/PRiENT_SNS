@@ -24,76 +24,65 @@
 
                 <div id="profile-picture-div">
                     <label for="profile-picture">
-                        <img src="http://via.placeholder.com/150x150" id="profile-picture-img" />
+                        <img src="https://placehold.co/800/orange/white?text=Upload+your+image" id="profile-picture-img" />
                         <input type="file" name="profile-picture" id="profile-picture" />
                     </label>
                 </div>
 
+                <div id="div-for-alert">
+                    <div id="alert-message" class=""></div>
+                </div>
+
                 <div class="">
                     <label for="first-name" class="form-label">First Name</label>
-                    <input type="text" class="form-control" name="first-name" id="first-name" aria-describedby="firstNameHelpId"
-                        placeholder="" />
-                    <small id="firstNameHelpId" class="form-text text-muted">Help text</small>
+                    <input type="text" class="form-control" name="first-name" id="first-name" aria-describedby="firstNameHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="last-name" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" name="last-name" id="last-name" aria-describedby="lastNameHelpId"
-                        placeholder="" />
-                    <small id="lastNameHelpId" class="form-text text-muted">Help text</small>
+                    <input type="text" class="form-control" name="last-name" id="last-name" aria-describedby="lastNameHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="account-name" class="form-label">Account Name</label>
-                    <input type="text" class="form-control" name="account-name" id="account-name" aria-describedby="accountNameHelpId"
-                        placeholder="" />
-                    <small id="accountNameHelpId" class="form-text text-muted">Help text</small>
+                    <input type="text" class="form-control" name="account-name" id="account-name" aria-describedby="accountNameHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="date-of-birth" class="form-label">生年月日</label>
-                    <input type="date" class="form-control" name="date-of-birth" id="date-of-birth" aria-describedby="emailHelpId"
-                        placeholder="" />
+                    <input type="date" class="form-control" name="date-of-birth" id="date-of-birth" aria-describedby="emailHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="email" class="form-label">メールアドレス</label>
-                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId"
-                        placeholder="" />
-                    <small id="emailHelpId" class="form-text text-muted">Help text</small>
+                    <input type="text" class="form-control" name="email" id="email" aria-describedby="emailHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="email-confirm" class="form-label">メールアドレス再入力</label>
-                    <input type="email" class="form-control" name="email-confirm" id="email-confirm" aria-describedby="emailHelpId"
-                        placeholder="" />
-                    <small id="emailConfirmHelpId" class="form-text text-muted">Help text</small>
+                    <input type="text" class="form-control" name="email-confirm" id="email-confirm" aria-describedby="emailHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="password" class="form-label">パスワード</label>
-                    <input type="password" class="form-control" name="password" id="password"
-                        aria-describedby="passwordHelpId" placeholder="" />
-                    <small id="passwordHelpId" class="form-text text-muted">Help text</small>
+                    <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelpId" placeholder="" />
                 </div>
 
                 <div class="">
                     <label for="password-confirm" class="form-label">パスワード再入力</label>
-                    <input type="password" class="form-control" name="password-confirm" id="password-confirm"
-                        aria-describedby="passwordHelpId" placeholder="" />
-                    <small id="passwordConfirmHelpId" class="form-text text-muted">Help text</small>
+                    <input type="password" class="form-control" name="password-confirm" id="password-confirm" aria-describedby="passwordHelpId" placeholder="" />
                 </div>
 
                 <div id="div-for-sex">
                     <label for="">性別</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="male" id="male">
+                        <input class="form-check-input" type="radio" name="sex-radio" id="male" value="male">
                         <label class="form-check-label" for="male">
                             男性
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="female" id="female">
+                        <input class="form-check-input" type="radio" name="sex-radio" id="female" value="female">
                         <label class="form-check-label" for="female">
                             女性
                         </label>
@@ -102,7 +91,7 @@
 
                 <div id="div-for-terms">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="yes" id="terms">
+                        <input class="terms-check-input" type="checkbox" id="terms-check-input">
                         <label class="form-check-label" for="terms">
                             利用規約に同意しますか?
                         </label>
@@ -111,9 +100,7 @@
 
                 <div id="bio-div">
                     <label for="bio" class="form-label">プロファイルメッセージ</label>
-                    <textarea type="text" class="form-control" name="bio" id="bio" aria-describedby="bioHelpId">
-                    </textarea>
-                    <small id="bioHelpId" class="form-text text-muted">Help text</small>
+                    <textarea type="text" class="form-control" name="bio" id="bio-input" aria-describedby="bioHelpId"></textarea>
                 </div>
 
                 <div id="submit-button-div">

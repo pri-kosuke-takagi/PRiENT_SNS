@@ -26,6 +26,7 @@
   );
   --card-color: var(--secondary);
   --card-color-dark: rgba(255, 255, 255, 0.8);
+  --alert-color: orange;
 }
 
 body,
@@ -53,6 +54,10 @@ main {
   justify-content: center;
   height: 100%;
   width: 100%;
+}
+
+#alert-message {
+  color: var(--alert-color);
 }
 
 /* ここからダークテーマ用設定 */

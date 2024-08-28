@@ -14,10 +14,13 @@ const emailInput = document.getElementById('email');
 const emailInputConfirm = document.getElementById('email-confirm');
 const passwordInput = document.getElementById('password');
 const passwordInputConfirm = document.getElementById('password-confirm');
-const agreeWithTermsInput = document.getElementById('form-check');
-const restoredUser = document.getElementById('div-for-sex');
-const bioInput = document.getElementById('bio');
+const sexInputs = document.getElementsByName('sex-radio');
+const agreeWithTermsInput = document.getElementById('terms-check-input');
+const bioInput = document.getElementById('bio-input');
 const profilePictureImg = document.getElementById('profile-picture-img')
+const alertMessage = document.getElementById('alert-message');
+let errorMessages = [];
+
 
 /**
  * 画像ファイルを受け取り、そのファイルのURLをプレビューに挿入する関数。 
@@ -51,7 +54,7 @@ const handleImageWhenSubmitted = async () => {
     let imageData = await convertToBase64(fileData);
     // imageDataの例は、data\posts.json のid:100の画像データを参照。画像データをbase64に変換するためすごく長くなる。
     console.log('This is imageData base64ed: ', imageData);
-    
+
     return imageData;
 }
 
@@ -66,64 +69,116 @@ const checkPassword = () => {
 const validateForm = () => {
     // パスワードとメールアドレスのバリデーション
     if (!checkEmail()) {
-        const error = document.getElementById('emailHelpId');
-        error.textContent = 'Emails do not match or empty.';
-        return;
+        errorMessages.push({
+            code: 1,
+            message: 'メールアドレスが違うか空白です。'
+        })
     }
+
     // if (!checkPassword()) {
-    //     const error = document.getElementById('passwordHelpId');
-    //     error.textContent = 'Passwords do not match or empty.';
-    //     return;
+    //     errorMessages.push({
+    //         code: 2,
+    //         message: 'パスワードが違うか空白です。'
+    //     })
     // }
+
+    // 利用規約に同意しているかどうかのバリデーション
+    if (!agreeWithTermsInput.checked) {
+        errorMessages.push({
+            code: 3,
+            message: '利用規約に同意してください。'
+        })
+    }
+}
+
+const cleanAlertMessage = () => {
+    while (alertMessage.firstChild) {
+        alertMessage.removeChild(alertMessage.firstChild);
+    }
+    errorMessages = [];
+}
+
+const handleAlertMessage = () => {
+    const errorList = document.createElement('ul');
+    errorMessages.forEach(error => {
+        const errorItem = document.createElement('li');
+        errorItem.textContent = error.message;
+        errorList.appendChild(errorItem);
+    })
+    alertMessage.appendChild(errorList);
 }
 
 
 const handleRegister = async (e, users) => {
 
-    validateForm();
+    try {
 
-    const firstName = firstNameInput.value;
-    const lastName = lastNameInput.value;
-    const accountName = accountNameInput.value;
-    const dateOfBirth = dateOfBirthInput.value;
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    const bio = bioInput.value;
-    const profilePicture = profilePictureInput.value ? await handleImageWhenSubmitted() : '';
+        cleanAlertMessage();
 
-    console.log('This is profilePicture: ', profilePicture);
+        validateForm();
 
-    // ユーザクラスを作成し、ユーザ登録を試みる。
-    const user = {
-        id: users.length + 1,
-        firstName,
-        lastName,
-        accountName,
-        dateOfBirth,
-        email,
-        password,
-        bio,
-        profilePicture,
-        posts: [],
-        follows: [],
-        savedPosts: []
-    };
+        if (errorMessages.length > 0) {
+            handleAlertMessage();
+            return;
+        }
 
-    const classifiedUser = turnUserIntoUserClass(user);
-    const registeredUser = classifiedUser.register(users);
-    console.log('This is registeredUser: ', registeredUser);
+        // フォームの入力値を変数に格納する。
+        const firstName = firstNameInput.value;
+        const lastName = lastNameInput.value;
+        const accountName = accountNameInput.value;
+        const dateOfBirth = dateOfBirthInput.value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        const bio = bioInput.value;
+        let sex = "other";
+        sexInputs.forEach(element => {
+            if (element.checked) {
+                sex = element.value;
+                return;
+            }
+        });
+        const profilePicture = profilePictureInput.value ? await handleImageWhenSubmitted() : '';
 
-    if (registeredUser) {
-        // ユーザ登録に成功した場合は、登録したユーザをusersに追加する。
-        storeUserDataToLocalStorage(registeredUser);
-        // ログインに成功した場合は、ユーザデータをセッションストレージに保存し、
-        alert('register successful');
-        // ホーム画面にリダイレクトする。
-        // テストのため一旦コメントアウト
-        // window.location.href = '/html/home.html'; 
-    } else {
-        // ユーザ登録に失敗した場合は、エラーメッセージを表示する。
-        alert('register failed');
+        console.log('This is profilePicture: ', profilePicture);
+
+        // ユーザクラスを作成し、ユーザ登録を試みる。
+        const user = {
+            id: users.length + 1,
+            firstName,
+            lastName,
+            accountName,
+            dateOfBirth,
+            email,
+            password,
+            sex,
+            bio,
+            profilePicture,
+            posts: [],
+            follows: [],
+            savedPosts: []
+        };
+
+        const classifiedUser = turnUserIntoUserClass(user);
+        const registeredUser = classifiedUser.register(users);
+        console.log('This is registeredUser: ', registeredUser);
+
+        return;
+
+        if (registeredUser) {
+            // ユーザ登録に成功した場合は、登録したユーザをusersに追加する。
+            storeUserDataToLocalStorage(registeredUser);
+            // ログインに成功した場合は、ユーザデータをセッションストレージに保存し、
+            alert('register successful');
+            // ホーム画面にリダイレクトする。
+            // テストのため一旦コメントアウト
+            // window.location.href = '/html/home.html'; 
+        } else {
+            // ユーザ登録に失敗した場合は、エラーメッセージを表示する。
+            alert('register failed');
+        }
+
+    } catch (error) {
+        console.error('Error: ', error);
     }
 }
 

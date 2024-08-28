@@ -2,6 +2,7 @@ import { fetchUserSampleData } from "./utils/fetchUserSampleData.js";
 import { User } from "./classes/UserClass.js";
 
 const loginForm = document.querySelector('#login-form');
+const alertMessage = document.querySelector('#alert-message');
 
 const handleLogin = (e, users) => {
     e.preventDefault();
@@ -19,8 +20,7 @@ const handleLogin = (e, users) => {
         window.location.href = '/html/home.html';
     } else {
         // ログインに失敗した場合は、エラーメッセージを表示する。
-        const error = document.querySelector('#error');
-        error.textContent = 'Invalid email or password. Please try again.';
+        alertMessage.textContent = 'Invalid email or password. Please try again.';
     }
 
 }

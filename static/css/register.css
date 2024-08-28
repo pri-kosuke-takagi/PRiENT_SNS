@@ -8,6 +8,15 @@
     align-items: center;
 }
 
+#div-for-alert {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--alert-color);
+}
+
 #profile-picture-div {
     grid-column-start: 1;
     grid-column-end: 3;
@@ -48,6 +57,11 @@
 #bio-div {
     grid-column-start: 1;
     grid-column-end: 3;
+}
+
+#bio-input {
+    width: 100%;
+    height: 100px;
 }
 
 #submit-button-div {
