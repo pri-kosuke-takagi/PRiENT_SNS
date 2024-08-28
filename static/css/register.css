@@ -1,0 +1,57 @@
+@import "./common.css";
+
+#register-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-picture-div {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-picture-img {
+    border-radius: 50%;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+}
+
+#profile-picture {
+    display: none;
+}
+
+#div-for-sex {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#div-for-terms {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#bio-div {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#submit-button-div {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    justify-self: center;
+}

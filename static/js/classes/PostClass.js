@@ -109,7 +109,7 @@ export class Post {
         // 一時保存ボタンを作成する
         const saveButton = document.createElement('button');
         saveButton.classList.add('save-button');
-        saveButton.textContent = user.savedPosts.includes(this.id) ? '保存済み' : '保存する';
+        saveButton.textContent = (user.savedPosts && user.savedPosts.includes(this.id)) ? '保存済み' : '保存する';
 
         // 一時保存ボタンのイベントリスナーを追加する
         saveButton.addEventListener('click', () => {
@@ -246,14 +246,7 @@ export class Post {
         // 画像部分を作成
         const postImage = document.createElement('img');
         if (this.imageUrl) {
-            postImage.alt = 'post-image-' + this.id;
-            postImage.classList.add('post-image');
-            if (typeof this.imageUrl === 'string') {
-                postImage.src = this.imageUrl;
-            } else {
-                console.log('This is imageUrl: ', this.imageUrl);
-                // console.log('This is imageUrl: ', URL.createObjectURL(this.imageUrl));
-            }
+            this.insertImageToElement(postImage, this.imageUrl);
         }
 
         // 本文部分を作成
@@ -347,4 +340,17 @@ export class Post {
         return postDiv;
     }
 
+    /**
+     * imgの引数をstringかどうかを判断して、eleで渡されたエレメントに挿入する。
+     * imgはBuffer形式のstringかリンクになる想定。
+     */
+    insertImageToElement(ele, img) {
+        ele.alt = 'post-image-' + this.id;
+        ele.classList.add('post-image');
+        if (typeof img === 'string') {
+            ele.src = img;
+        } else {
+            console.log('This is imageUrl (isnnot string): ', img);
+        }
+    }
 }

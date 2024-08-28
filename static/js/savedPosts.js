@@ -5,6 +5,7 @@ import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
 import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
 import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
+import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass.js";
 
 const savedPostsDiv = document.querySelector('#saved-posts-div');
 
@@ -33,9 +34,8 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
             return;
         }
 
-        // 投稿者の情報を取得するし、投稿者のプロフィールを作成する。
-        const authorInfo = getUserFromKey(post.author, 'id');
-        const classifiedUser = new User(authorInfo.id, authorInfo.firstName, authorInfo.lastName, authorInfo.accountName, authorInfo.email, authorInfo.password, authorInfo.bio, authorInfo.profilePicture, authorInfo.posts, authorInfo.follows);
+        // 投稿者の情報を取得し、投稿者のプロフィールを作成する。
+        const classifiedUser = getUserFromKey(post.author, 'id', true);
         const authorDiv = classifiedUser.createProfileOnPost(classifiedLoggedInUser);
 
         // 投稿の情報を取得し、投稿のHTMLを作成する。
@@ -73,7 +73,7 @@ window.onload = async () => {
     localStorage.setItem('posts', JSON.stringify(posts));
     console.log('This is posts: ', posts);
 
-    const classifiedLoggedInUser = new User(loggedInUser.id, loggedInUser.firstName, loggedInUser.lastName, loggedInUser.accountName, loggedInUser.email, loggedInUser.password, loggedInUser.bio, loggedInUser.profilePicture, loggedInUser.posts, loggedInUser.follows, loggedInUser.savedPosts);
+    const classifiedLoggedInUser = turnUserIntoUserClass(loggedInUser); 
 
     displayPosts(posts, classifiedLoggedInUser);
 }

@@ -5,6 +5,7 @@ import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
 import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
 import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
+import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass.js";
 
 const postsDiv = document.querySelector('#posts-div');
 const searchButton = document.querySelector('#search-button');
@@ -104,9 +105,9 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
             return;
         }
 
-        // 投稿者の情報を取得するし、投稿者のプロフィールを作成する。
-        const authorInfo = getUserFromKey(post.author, 'id');
-        const classifiedUser = new User(authorInfo.id, authorInfo.firstName, authorInfo.lastName, authorInfo.accountName, authorInfo.email, authorInfo.password, authorInfo.bio, authorInfo.profilePicture, authorInfo.posts, authorInfo.follows);
+        // 投稿者の情報を取得し、投稿者のプロフィールを作成する。
+        const classifiedUser = getUserFromKey(post.author, 'id', true);
+        console.log('This is classifiedUser: ', classifiedUser);
         const authorDiv = classifiedUser.createProfileOnPost(classifiedLoggedInUser);
 
         // 投稿の情報を取得し、投稿のHTMLを作成する。
@@ -128,25 +129,17 @@ window.onload = async () => {
     console.log('home.js loaded');
 
     // ユーザデータをローカルストレージから取得する。
-    let users = JSON.parse(localStorage.getItem('users'));
-    // もしも、ユーザデータがない場合は、サンプルデータを取得する。
-    if (!localStorage.getItem('users')) {
-        users = await fetchUserSampleData();
-    }
+    let users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : await fetchUserSampleData();
     localStorage.setItem('users', JSON.stringify(users));
     console.log('This is users: ', users);
 
     const loggedInUser = checkIfUserLoggedIn(users);
 
     // ユーザデータと同じように、投稿データもローカルストレージから取得する。
-    let posts = JSON.parse(localStorage.getItem('posts'));
-    if (!localStorage.getItem('posts')) {
-        posts = await fetchPostSampleData();
-    }
-    localStorage.setItem('posts', JSON.stringify(posts));
+    let posts = localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts')) : await fetchPostSampleData();
     console.log('This is posts: ', posts);
 
-    const classifiedLoggedInUser = new User(loggedInUser.id, loggedInUser.firstName, loggedInUser.lastName, loggedInUser.accountName, loggedInUser.email, loggedInUser.password, loggedInUser.bio, loggedInUser.profilePicture, loggedInUser.posts, loggedInUser.follows, loggedInUser.savedPosts);
+    const classifiedLoggedInUser = turnUserIntoUserClass(loggedInUser);
 
     displayPosts(posts, classifiedLoggedInUser);
 

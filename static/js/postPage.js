@@ -6,6 +6,7 @@ import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
 import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
 import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
 import { createUrlFromImageFile } from "/static/js/utils/createUrlFromImageFile.js";
+import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass";
 
 const postTitle = document.getElementById('post-title');
 const postImage = document.getElementById('image-preview')
@@ -81,7 +82,7 @@ window.onload = async () => {
     localStorage.setItem('posts', JSON.stringify(posts));
     console.log('This is posts: ', posts);
 
-    const classifiedLoggedInUser = new User(loggedInUser.id, loggedInUser.firstName, loggedInUser.lastName, loggedInUser.accountName, loggedInUser.email, loggedInUser.password, loggedInUser.bio, loggedInUser.profilePicture, loggedInUser.posts, loggedInUser.follows);
+    const classifiedLoggedInUser = turnUserIntoUserClass(loggedInUser);
 
     imageInput.addEventListener('change', handleImageInput);
 

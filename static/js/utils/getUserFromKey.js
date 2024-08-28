@@ -1,3 +1,4 @@
+import { turnUserIntoUserClass } from "./turnUserIntoUserClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 
 /**
@@ -12,6 +13,6 @@ export const getUserFromKey = (value, key, isGetttingClassifiedUser = false) => 
     if (!isGetttingClassifiedUser) {
         return user;
     } else {
-        return new User(user.id, user.firstName, user.lastName, user.accountName, user.email, user.password, user.bio, user.profilePicture, user.posts, user.follows);
+        return turnUserIntoUserClass(user);
     }
 }

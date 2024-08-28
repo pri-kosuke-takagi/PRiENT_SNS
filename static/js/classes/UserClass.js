@@ -1,7 +1,8 @@
 import { createUrlFromImageFile } from "../utils/createUrlFromImageFile.js";
+import { turnUserIntoUserClass } from "../utils/turnUserIntoUserClass.js";
 import { updateUserData } from "../utils/updateUserData.js";
 export class User {
-    constructor(id, firstName, lastName, accountName, email, password, bio = "", profilePicture = "", posts = [], follows = [], savedPosts) {
+    constructor(id, firstName, lastName, accountName, email, password, bio = "", profilePicture = "", posts = [], follows = [], savedPosts = []) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,21 +37,26 @@ export class User {
      * ユーザを登録するメソッド 
      * @returns {User | null} 登録したユーザ or null
      */
-    async register(firstName, lastName, accountName, email, password, bio, profilePicture, users) {
+    register(users) {
         try {
-            if (users.find(u => u.email === email)) {
+            if (!this.email || !this.password) {
+                console.log('Invalid parameters');
+                return null;
+            }
+            if (users.find(u => u.email === this.email)) {
                 console.log('Email already exists');
                 return null;
             }
 
-            let urlOfBlob = await createUrlFromImageFile(profilePicture);
-            console.log('This is urlOfBlob: ', urlOfBlob);
+            const id = users[users.length - 1].id + 1;
+            if (id) {
+                this.id = id;
+            } else {
+                throw new Error('Error getting id');
+            }
 
-            const id = users.length + 1;
-            const user = new User(id, firstName, lastName, accountName, email, password, bio, urlOfBlob);
-
-            sessionStorage.setItem('userId', JSON.stringify(user.id));
-            return user;
+            sessionStorage.setItem('userId', JSON.stringify(this.id));
+            return this;
         } catch (error) {
             console.error('Error registering user: ', error);
             return null;
