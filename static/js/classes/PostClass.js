@@ -1,5 +1,6 @@
 import { updatePostData } from "/static/js/utils/updatePostData.js";
 import { storeUserDataToLocalStorage } from "../utils/storeUserDataToLocalStorage.js";
+import { User } from "./UserClass.js";
 
 export class Post {
     constructor(id, author, title, content, imageUrl, timestamp, likes, comments) {
@@ -14,7 +15,7 @@ export class Post {
     }
 
     /**
-     * 投稿された時に呼び出されるメソッド
+     * 投稿が作成された時に呼び出されるメソッド
      */
     createPost() {
         const post = {
@@ -36,8 +37,8 @@ export class Post {
     /**
      * 投稿をHTML要素に変換して表示させるメソッド (ホーム画面)
      */
-    createPostElement(user) {
-        const isLiked = this.likes.includes(user.id);
+    createPostElement(loggedInUser, user, comments) {
+        const isLiked = this.likes.includes(loggedInUser.id);
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
 
@@ -97,31 +98,31 @@ export class Post {
                 likeButton.classList.remove('liked');
                 likeHeart.classList.remove('fa-solid');
                 likeHeart.classList.add('fa-regular');
-                this.removeLike(user.id);
+                this.removeLike(loggedInUser.id);
             } else {
                 likeButton.classList.add('liked');
                 likeHeart.classList.remove('fa-regular');
                 likeHeart.classList.add('fa-solid');
-                this.addLike(user.id);
+                this.addLike(loggedInUser.id);
             }
         });
 
         // 一時保存ボタンを作成する
         const saveButton = document.createElement('button');
         saveButton.classList.add('save-button');
-        saveButton.textContent = (user.savedPosts && user.savedPosts.includes(this.id)) ? '保存済み' : '保存する';
+        saveButton.textContent = (loggedInUser.savedPosts && loggedInUser.savedPosts.includes(this.id)) ? '保存済み' : '保存する';
 
         // 一時保存ボタンのイベントリスナーを追加する
         saveButton.addEventListener('click', () => {
-            console.log('This is user: ', user);
+            console.log('This is user before savePost: ', loggedInUser);
             if (saveButton.textContent === '保存済み') {
                 saveButton.textContent = '保存する';
-                user = this.unsavePost(user);
+                loggedInUser = this.unsavePost(loggedInUser);
             } else {
                 saveButton.textContent = '保存済み';
-                user = this.savePost(user);
+                loggedInUser = this.savePost(loggedInUser);
             }
-            console.log('This is user after savePost: ', user);
+            console.log('This is user after savePost: ', loggedInUser);
         });
 
         likesAndSaveDiv.appendChild(likeButton);
@@ -129,29 +130,12 @@ export class Post {
         likesAndSaveDiv.appendChild(saveButton);
 
         // コメント部分を作成
-        const commentsDiv = document.createElement('div');
-        commentsDiv.classList.add('comments-div');
-        const commentButton = document.createElement('button');
-        commentButton.classList.add('comment-button');
-        commentButton.dataset.id = this.id;
-        commentButton.textContent = 'Comment';
-
-        // コメントリストを作成
-        const commentsList = document.createElement('ul');
-        commentsList.appendChild(document.createElement('h4'));
-        commentsList.querySelector('h4').textContent = 'Comments';
-        this.comments.forEach(comment => {
-            const commentLi = document.createElement('li');
-            commentLi.textContent = comment;
-            commentsList.appendChild(commentLi);
-        });
-        commentsDiv.appendChild(commentsList);
+        const commentsDiv = this.createDivForComments(user, comments);
 
         postDiv.appendChild(postTitle);
         postDiv.appendChild(postImage);
         postDiv.appendChild(postContent);
         postDiv.appendChild(likesAndSaveDiv);
-        postDiv.appendChild(commentButton);
         postDiv.appendChild(commentsDiv);
 
         return postDiv;
@@ -312,29 +296,12 @@ export class Post {
         likesAndSaveDiv.appendChild(saveButton);
 
         // コメント部分を作成
-        const commentsDiv = document.createElement('div');
-        commentsDiv.classList.add('comments-div');
-        const commentButton = document.createElement('button');
-        commentButton.classList.add('comment-button');
-        commentButton.dataset.id = this.id;
-        commentButton.textContent = 'Comment';
-
-        // コメントリストを作成
-        const commentsList = document.createElement('ul');
-        commentsList.appendChild(document.createElement('h4'));
-        commentsList.querySelector('h4').textContent = 'Comments';
-        this.comments.forEach(comment => {
-            const commentLi = document.createElement('li');
-            commentLi.textContent = comment;
-            commentsList.appendChild(commentLi);
-        });
-        commentsDiv.appendChild(commentsList);
+        const commentsDiv = this.createDivForComments(comments);
 
         postDiv.appendChild(postTitle);
         postDiv.appendChild(postImage);
         postDiv.appendChild(postContent);
         postDiv.appendChild(likesAndSaveDiv);
-        postDiv.appendChild(commentButton);
         postDiv.appendChild(commentsDiv);
 
         return postDiv;
@@ -352,5 +319,79 @@ export class Post {
         } else {
             console.log('This is imageUrl (isnnot string): ', img);
         }
+    }
+
+    /**
+     * コメントのDivを作成する
+     * @param {Object} user ログイン済みのユーザ
+     * @param {Array} comments コメントリスト
+     */
+    createDivForComments(user, comments) {
+        const commentsDiv = document.createElement('div');
+        commentsDiv.classList.add('comments-div');
+
+        const commentButton = document.createElement('button');
+        commentButton.classList.add('comment-button');
+        commentButton.dataset.id = this.id;
+        commentButton.textContent = 'コメントする';
+
+        // コメントタイトルを作成
+        const commentTitle = document.createElement('div')
+        commentTitle.textContent = 'コメント';
+
+        // コメントリストを作成
+        const commentsList = document.createElement('ul');
+        commentsList.classList.add('comments-list' + this.id, 'd-none');
+        this.comments.forEach(comment => {
+            comments.forEach(c => {
+                if (c.id === comment) {
+                    const commentLi = this.createLiForComment(user, c);
+                    commentsList.appendChild(commentLi);
+                }
+            })
+        });
+
+        // コメントタイトルをクリックしたら、コメントリストを表示するように。
+        commentTitle.classList.add('comment-title-' + this.id);
+        commentTitle.addEventListener('click', () => {
+            commentsList.classList.toggle('d-none');
+        })
+
+        commentsDiv.appendChild(commentButton);
+        commentsDiv.appendChild(commentTitle);
+        commentsDiv.appendChild(commentsList);
+
+        return commentsDiv;
+    }
+
+    /**
+     * 各コメントを作成する。
+     * 
+     * `li`タグを作成
+     */
+    createLiForComment(user, comment) {
+        const commentLi = document.createElement('li');
+        commentLi.classList.add('comment-li-' + comment.id);
+
+        // コメントしたユーザのプロファイルを取得する。
+        const userDiv = user.createProfileOnComment(user);
+
+        // コメントの内容を取得する。
+        const commentContent = this.createContentForComment(comment);
+
+        commentLi.appendChild(userDiv);
+        commentLi.appendChild(commentContent);
+
+        return commentLi;
+    }
+
+    /**
+     * コメントの内容のdivを作成する。
+     */
+    createContentForComment(comment) {
+        const commentContent = document.createElement('div');
+        commentContent.textContent = comment.comment;
+
+        return commentContent;
     }
 }

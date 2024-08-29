@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "user": 2,
+        "is_delete": false,
+        "comment": "コメントテスト"
+    },
+    {
+        "id": 2,
+        "user": 3,
+        "is_delete": false,
+        "comment": "Comment 2"
+    },
+    {
+        "id": 3,
+        "user": 1,
+        "is_delete": false,
+        "comment": "コメント3です。"
+    },
+    {
+        "id": 4,
+        "user": 3,
+        "is_delete": false,
+        "comment": "とてもいい写真です。"
+    },
+    {
+        "id": 5,
+        "user": 1,
+        "is_delete": false,
+        "comment": "近いです。"
+    },
+    {
+        "id": 6,
+        "user": 2,
+        "is_delete": false,
+        "comment": "Hello"
+    },
+    {
+        "id": 7,
+        "user": 3,
+        "is_delete": false,
+        "comment": "おひさしぶり"
+    },
+    {
+        "id": 8,
+        "user": 3,
+        "is_delete": false,
+        "comment": "( ﾟДﾟ)"
+    }
+]

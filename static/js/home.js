@@ -6,6 +6,7 @@ import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
 import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
 import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
 import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass.js";
+import { fetchCommentSampleData } from "./utils/fetchCommentSampleData.js";
 
 const postsDiv = document.querySelector('#posts-div');
 const searchButton = document.querySelector('#search-button');
@@ -89,9 +90,8 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
     });
 }
 
-const displayPosts = (posts, classifiedLoggedInUser) => {
+const displayPosts = (posts, comments, classifiedLoggedInUser) => {
     const userIdOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.id : null;
-    const followsOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.follows : null;
 
     postsDiv.innerHTML = '';
     posts.forEach((post, index) => {
@@ -112,8 +112,10 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
 
         // 投稿の情報を取得し、投稿のHTMLを作成する。
         const classifiedPost = new Post(post.id, post.author, post.title, post.content, post.imageUrl, post.timestamp, post.likes, post.comments);
+
         console.log('This is classifiedPost: ', classifiedPost);
-        const postElement = classifiedPost.createPostElement(classifiedLoggedInUser);
+
+        const postElement = classifiedPost.createPostElement(classifiedLoggedInUser, classifiedUser, comments);
 
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
         const postCard = document.createElement('div');
@@ -145,9 +147,15 @@ window.onload = async () => {
 
     // ユーザデータと同じように、投稿データもローカルストレージから取得する。
     let posts = localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts')) : await fetchPostSampleData();
+    localStorage.setItem('posts', JSON.stringify(posts));
     console.log('This is posts: ', posts);
 
-    displayPosts(posts, classifiedLoggedInUser);
+    // 投稿のコメントもユーザデータと同じように、ローカルストレージから取得する。
+    let comments = localStorage.getItem('comments') ? JSON.parse(localStorage.getItem('comments')) : await fetchCommentSampleData();
+    localStorage.setItem('comments', JSON.stringify(comments));
+    console.log('This is comments: ', comments);
+
+    displayPosts(posts, comments, classifiedLoggedInUser);
 
     searchButton.addEventListener('click', (e) => {
         handledSearchButtonClicked(e, classifiedLoggedInUser, users);

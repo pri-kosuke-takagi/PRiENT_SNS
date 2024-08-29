@@ -59,3 +59,14 @@
 .like-button {
   cursor: pointer;
 }
+
+/* コメントのタイトル */
+[class^="comment-title-"] {
+  cursor: pointer;
+}
+
+/* Postのコメント */
+[class^="comment-li-"] {
+  list-style-type: none;
+  font-size: small;
+}
