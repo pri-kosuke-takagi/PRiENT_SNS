@@ -12,5 +12,10 @@ export const updateUserData = async (newUserData) => {
             return user;
         }
     });
+
+    if (!updateUsers.find(user => user.id === newUserData.id)) {
+        updateUsers.push(newUserData);
+    }
+
     localStorage.setItem('users', JSON.stringify(updateUsers));
 }

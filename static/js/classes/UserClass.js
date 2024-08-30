@@ -1,6 +1,6 @@
 import { createUrlFromImageFile } from "../utils/createUrlFromImageFile.js";
-import { turnUserIntoUserClass } from "../utils/turnUserIntoUserClass.js";
-import { updateUserData } from "../utils/updateUserData.js";
+import { turnUserIntoUserClass } from "../utils/classTransfers/turnUserIntoUserClass.js";
+import { updateUserData } from "../utils/updateData/updateUserData.js";
 export class User {
     constructor(id, firstName, lastName, accountName, email, password, sex = "other", dateOfBirth = "", bio = "", profilePicture = "", posts = [], follows = [], savedPosts = []) {
         this.id = id;
@@ -172,7 +172,7 @@ export class User {
     /**
      * コメントの上にユーザ情報を表示するHTMLを作成するためのメソッド
      */
-    createProfileOnComment(loggedInUser) {
+    createProfileOnComment() {
         const authorDiv = document.createElement('div');
 
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');

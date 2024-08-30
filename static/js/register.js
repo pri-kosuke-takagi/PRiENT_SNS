@@ -1,8 +1,8 @@
-import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
-import { storeUserDataToLocalStorage } from "/static/js/utils/storeUserDataToLocalStorage.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUtils/fetchUserSampleData.js";
 import { User } from "/static/js/classes/UserClass.js";
 import { createUrlFromImageFile } from "/static/js/utils/createUrlFromImageFile.js";
-import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass.js";
+import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserClass.js";
+import { updateUserData } from "./utils/updateData/updateUserData.js";
 
 const registerForm = document.getElementById('register-form');
 const profilePictureInput = document.getElementById('profile-picture');
@@ -162,16 +162,13 @@ const handleRegister = async (e, users) => {
         const registeredUser = classifiedUser.register(users);
         console.log('This is registeredUser: ', registeredUser);
 
-        return;
-
         if (registeredUser) {
             // ユーザ登録に成功した場合は、登録したユーザをusersに追加する。
-            storeUserDataToLocalStorage(registeredUser);
+            updateUserData(registeredUser);
             // ログインに成功した場合は、ユーザデータをセッションストレージに保存し、
             alert('register successful');
             // ホーム画面にリダイレクトする。
-            // テストのため一旦コメントアウト
-            // window.location.href = '/html/home.html'; 
+            window.location.href = '/html/home.html'; 
         } else {
             // ユーザ登録に失敗した場合は、エラーメッセージを表示する。
             alert('register failed');

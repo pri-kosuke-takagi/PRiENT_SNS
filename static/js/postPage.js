@@ -1,12 +1,11 @@
-import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
-import { fetchPostSampleData } from "/static/js/utils/fetchPostSampleData.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUtils/fetchUserSampleData.js";
+import { fetchPostSampleData } from "/static/js/utils/fetchUtils/fetchPostSampleData.js";
 import { Post } from "/static/js/classes/PostClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
-import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
-import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
+import { getUserByKey } from "/static/js/utils/getObjectByKeys/getUserByKey.js";
 import { createUrlFromImageFile } from "/static/js/utils/createUrlFromImageFile.js";
-import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass";
+import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserClass.js";
 
 const postTitle = document.getElementById('post-title');
 const postImage = document.getElementById('image-preview')

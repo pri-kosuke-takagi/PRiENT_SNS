@@ -1,11 +1,11 @@
-import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
-import { fetchPostSampleData } from "/static/js/utils/fetchPostSampleData.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUtils/fetchUserSampleData.js";
+import { fetchPostSampleData } from "/static/js/utils/fetchUtils/fetchPostSampleData.js";
 import { Post } from "/static/js/classes/PostClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
-import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
+import { getUserByKey } from "/static/js/utils/getObjectByKeys/getUserByKey.js";
 import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
-import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass.js";
+import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserClass.js";
 
 const savedPostsDiv = document.querySelector('#saved-posts-div');
 
@@ -35,13 +35,16 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
         }
 
         // 投稿者の情報を取得し、投稿者のプロフィールを作成する。
-        const classifiedUser = getUserFromKey(post.author, 'id', true);
+        const classifiedUser = getUserByKey(post.author, 'id', true);
         const authorDiv = classifiedUser.createProfileOnPost(classifiedLoggedInUser);
+
+        // コメントを取得する
+        const comments = JSON.parse(localStorage.getItem('comments'));
 
         // 投稿の情報を取得し、投稿のHTMLを作成する。
         const classifiedPost = new Post(post.id, post.author, post.title, post.content, post.imageUrl, post.timestamp, post.likes, post.comments);
         console.log('This is classifiedPost: ', classifiedPost);
-        const postElement = classifiedPost.createSavedPostElement(classifiedLoggedInUser, postCard);
+        const postElement = classifiedPost.createSavedPostElement(classifiedLoggedInUser, classifiedUser, comments, postCard);
 
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
         postCard.appendChild(authorDiv);

@@ -1,50 +1,58 @@
 [
     {
         "id": 1,
+        "post": 1,
         "user": 2,
         "is_delete": false,
-        "comment": "コメントテスト"
+        "content": "コメントテスト"
     },
     {
         "id": 2,
+        "post": 1,
         "user": 3,
         "is_delete": false,
-        "comment": "Comment 2"
+        "content": "content 2"
     },
     {
         "id": 3,
+        "post": 2,
         "user": 1,
         "is_delete": false,
-        "comment": "コメント3です。"
+        "content": "コメント3です。"
     },
     {
         "id": 4,
+        "post": 2,
         "user": 3,
         "is_delete": false,
-        "comment": "とてもいい写真です。"
+        "content": "とてもいい写真です。"
     },
     {
         "id": 5,
+        "post": 3,
         "user": 1,
         "is_delete": false,
-        "comment": "近いです。"
+        "content": "近いです。"
     },
     {
         "id": 6,
+        "post": 3,
         "user": 2,
         "is_delete": false,
-        "comment": "Hello"
+        "content": "Hello"
     },
     {
         "id": 7,
+        "post": 4,
         "user": 3,
         "is_delete": false,
-        "comment": "おひさしぶり"
+        "content": "おひさしぶり"
     },
     {
         "id": 8,
+        "post": 5,
         "user": 3,
         "is_delete": false,
-        "comment": "( ﾟДﾟ)"
+        "content": "( ﾟДﾟ)"
     }
 ]

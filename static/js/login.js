@@ -1,4 +1,4 @@
-import { fetchUserSampleData } from "./utils/fetchUserSampleData.js";
+import { fetchUserSampleData } from "./utils/fetchUtils/fetchUserSampleData.js";
 import { User } from "./classes/UserClass.js";
 
 const loginForm = document.querySelector('#login-form');

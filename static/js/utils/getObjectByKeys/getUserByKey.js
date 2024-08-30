@@ -1,4 +1,4 @@
-import { turnUserIntoUserClass } from "./turnUserIntoUserClass.js";
+import { turnUserIntoUserClass } from "../classTransfers/turnUserIntoUserClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 
 /**
@@ -7,7 +7,7 @@ import { User } from "/static/js/classes/UserClass.js";
  * @param {string} key - 取得したいユーザのキー
  * @param {boolean} isGetttingClassifiedUser - classifiedUserを取得するかどうか
  */
-export const getUserFromKey = (value, key, isGetttingClassifiedUser = false) => {
+export const getUserByKey = (value, key, isGetttingClassifiedUser = false) => {
     const users = JSON.parse(localStorage.getItem('users'));
     const user = users.find(u => u[key] === value);
     if (!isGetttingClassifiedUser) {

@@ -1,12 +1,12 @@
-import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
-import { fetchPostSampleData } from "/static/js/utils/fetchPostSampleData.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUtils/fetchUserSampleData.js";
+import { fetchPostSampleData } from "/static/js/utils/fetchUtils/fetchPostSampleData.js";
 import { Post } from "/static/js/classes/PostClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
-import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
+import { getUserByKey } from "/static/js/utils/getObjectByKeys/getUserByKey.js";
 import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js";
-import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass.js";
-import { fetchCommentSampleData } from "./utils/fetchCommentSampleData.js";
+import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserClass.js";
+import { fetchCommentSampleData } from "./utils/fetchUtils/fetchCommentSampleData.js";
 
 const postsDiv = document.querySelector('#posts-div');
 const searchButton = document.querySelector('#search-button');
@@ -26,16 +26,14 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
     searchModalButtons.classList.add('search-buttons-div', 'd-flex', 'gap-1', 'align-items-center', 'p-2', 'w-100');
     const searchModalButtonsDiv = document.createElement('div');
     searchModalButtonsDiv.classList.add('flex-grow-1', 'd-flex', 'align-items-center', 'justify-content-center', 'gap-2');
+
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.id = 'search-input';
     searchInput.placeholder = 'Search for users...';
-    // 検索ボタンは無くても機能的には問題ないので、コメントアウト。
-    // const searchButton = document.createElement('button');
-    // searchButton.id = 'search-user-button';
-    // searchButton.textContent = '検索';
+
     searchModalButtonsDiv.appendChild(searchInput);
-    // searchModalButtonsDiv.appendChild(searchButton);
+
     const closeModalButton = document.createElement('i');
     closeModalButton.classList.add('fa-solid', 'fa-x', 'close-button');
     searchModalButtons.appendChild(searchModalButtonsDiv);
@@ -106,7 +104,7 @@ const displayPosts = (posts, comments, classifiedLoggedInUser) => {
         }
 
         // 投稿者の情報を取得し、投稿者のプロフィールを作成する。
-        const classifiedUser = getUserFromKey(post.author, 'id', true);
+        const classifiedUser = getUserByKey(post.author, 'id', true);
         console.log('This is classifiedUser: ', classifiedUser);
         const authorDiv = classifiedUser.createProfileOnPost(classifiedLoggedInUser);
 
