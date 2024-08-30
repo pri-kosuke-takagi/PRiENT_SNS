@@ -46,16 +46,17 @@ export class Post {
         postDiv.classList.add('post');
 
         // Title部分を作成
-        const postTitle = document.createElement('div');
-        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
-        const titleDiv = document.createElement('div');
-        titleDiv.classList.add('fs-4');
-        titleDiv.textContent = this.title;
-        const postedDate = document.createElement('div');
-        postedDate.classList.add('posted-date');
-        postedDate.textContent = this.formatDate();
-        postTitle.appendChild(titleDiv);
-        postTitle.appendChild(postedDate);
+        const postTitle = this.createDivForTitle();
+        // const postTitle = document.createElement('div');
+        // postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
+        // const titleDiv = document.createElement('div');
+        // titleDiv.classList.add('fs-4');
+        // titleDiv.textContent = this.title;
+        // const postedDate = document.createElement('div');
+        // postedDate.classList.add('posted-date');
+        // postedDate.textContent = this.formatDate();
+        // postTitle.appendChild(titleDiv);
+        // postTitle.appendChild(postedDate);
 
         // 画像部分を作成
         const postImage = document.createElement('img');
@@ -67,41 +68,15 @@ export class Post {
         const postContent = document.createElement('p');
         postContent.textContent = this.content;
 
-        // いいねボタン部分を作成
+        // いいねと一時保存を格納するDivを作成
         const likesAndSaveDiv = document.createElement('div');
         likesAndSaveDiv.classList.add('likes-div', 'd-flex', 'gap-2');
-        const likeButton = document.createElement('div');
-        likeButton.classList.add('like-button');
-        likeButton.dataset.id = this.id;
+
+        // いいねボタン部分を作成
+        const likeButton = this.createLikeButton(loggedInUser, isLiked);
 
         // いいね数が0より大きい場合は表示する
-        const likesCount = document.createElement('div');
-        likesCount.classList.add('likes-count');
-        likesCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';
-
-        // like-buttonのイベントリスナーを追加する
-        const likeHeart = document.createElement('i');
-        if (isLiked) {
-            likeButton.classList.add('liked');
-            likeHeart.classList.add('fa-solid', 'fa-heart');
-        } else {
-            likeButton.classList.remove('liked');
-            likeHeart.classList.add('fa-regular', 'fa-heart');
-        }
-        likeButton.appendChild(likeHeart);
-        likeButton.addEventListener('click', async () => {
-            if (isLiked) {
-                likeButton.classList.remove('liked');
-                likeHeart.classList.remove('fa-solid');
-                likeHeart.classList.add('fa-regular');
-                this.removeLike(loggedInUser.id);
-            } else {
-                likeButton.classList.add('liked');
-                likeHeart.classList.remove('fa-regular');
-                likeHeart.classList.add('fa-solid');
-                this.addLike(loggedInUser.id);
-            }
-        });
+        const likesCount = this.createLikeCountElement(isLiked);
 
         // 一時保存ボタンを作成する
         const saveButton = document.createElement('button');
@@ -208,16 +183,7 @@ export class Post {
         postDiv.classList.add(['post']);
 
         // Title部分を作成
-        const postTitle = document.createElement('div');
-        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
-        const titleDiv = document.createElement('div');
-        titleDiv.classList.add('fs-4');
-        titleDiv.textContent = this.title;
-        const postedDate = document.createElement('div');
-        postedDate.classList.add('posted-date');
-        postedDate.textContent = this.formatDate();
-        postTitle.appendChild(titleDiv);
-        postTitle.appendChild(postedDate);
+        const postTitle = this.createDivForTitle();
 
         // 画像部分を作成
         const postImage = document.createElement('img');
@@ -229,42 +195,15 @@ export class Post {
         const postContent = document.createElement('p');
         postContent.textContent = this.content;
 
+        // いいねと保存ボタンを格納するDiv
         const likesAndSaveDiv = document.createElement('div');
-        // いいねボタン部分を作成
         likesAndSaveDiv.classList.add('likes-div', 'd-flex', 'gap-2');
-        const likeButton = this.createLikeButton();
-        // likeButton.classList.add('like-button');
-        // likeButton.dataset.id = this.id;
+
+        // いいねボタン部分を作成
+        const likeButton = this.createLikeButton(loggedInUser, isLiked);
 
         // いいね数が0より大きい場合は表示する
-        const likesCount =this.createLikeCountElement(isLiked);
-        //  document.createElement('div');
-        // likesCount.classList.add('likes-count');
-        // likesCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';
-
-        // like-buttonのイベントリスナーを追加する
-        // const likeHeart = document.createElement('i');
-        // if (isLiked) {
-        //     likeButton.classList.add('liked');
-        //     likeHeart.classList.add('fa-solid', 'fa-heart');
-        // } else {
-        //     likeButton.classList.remove('liked');
-        //     likeHeart.classList.add('fa-regular', 'fa-heart');
-        // }
-        // likeButton.appendChild(likeHeart);
-        // likeButton.addEventListener('click', async () => {
-        //     if (isLiked) {
-        //         likeButton.classList.remove('liked');
-        //         likeHeart.classList.remove('fa-solid');
-        //         likeHeart.classList.add('fa-regular');
-        //         this.removeLike(user.id);
-        //     } else {
-        //         likeButton.classList.add('liked');
-        //         likeHeart.classList.remove('fa-regular');
-        //         likeHeart.classList.add('fa-solid');
-        //         this.addLike(user.id);
-        //     }
-        // });
+        const likesCount = this.createLikeCountElement(isLiked);
 
         // 一時保存ボタンを作成する
         const saveButton = document.createElement('button');
@@ -289,7 +228,7 @@ export class Post {
         likesAndSaveDiv.appendChild(saveButton);
 
         // コメント部分を作成
-        const commentsDiv = this.createDivForComments(loggedInUser,user, comments);
+        const commentsDiv = this.createDivForComments(loggedInUser, user, comments);
 
         postDiv.appendChild(postTitle);
         postDiv.appendChild(postImage);
@@ -464,7 +403,7 @@ export class Post {
     createCommentInput() {
 
         const commentInput = document.createElement('textarea');
-        
+
         commentInput.id = 'comment-input-' + this.id;
         commentInput.placeholder = 'コメントを入力してください';
 
@@ -476,7 +415,7 @@ export class Post {
      * 
      */
     makeArrayOfCommentsCommentLists(comments, commentsList, isCommentListRefreshed = false) {
-        
+
         console.log('This is comments of post: ', this.comments);
 
         comments.forEach(c => {
@@ -489,9 +428,40 @@ export class Post {
     }
 
     /**
+     * タイトル部分のエレメントを作成する。
+     */
+    createDivForTitle() {
+
+        const postTitle = document.createElement('div');
+        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
+
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add('fs-4');
+        titleDiv.textContent = this.title;
+
+        const postedDate = this.createElementForPostedDate();
+
+        postTitle.appendChild(titleDiv);
+        postTitle.appendChild(postedDate);
+
+        return postTitle;
+    }
+
+    /**
+     * ポストが作成された日時をフォーマットする。
+     */
+    createElementForPostedDate() {
+        const postedDate = document.createElement('div');
+        postedDate.classList.add('posted-date');
+        postedDate.textContent = this.formatDate();
+
+        return postedDate;
+    }
+
+    /**
      * いいねボタンを作成する。
      */
-    createLikeButton(isLiked) {
+    createLikeButton(loggedInUser, isLiked) {
         const likeButton = document.createElement('button');
         likeButton.classList.add('like-button');
         likeButton.textContent = 'いいね';
@@ -510,12 +480,12 @@ export class Post {
                 likeButton.classList.remove('liked');
                 likeHeart.classList.remove('fa-solid');
                 likeHeart.classList.add('fa-regular');
-                this.removeLike(user.id);
+                this.removeLike(loggedInUser.id);
             } else {
                 likeButton.classList.add('liked');
                 likeHeart.classList.remove('fa-regular');
                 likeHeart.classList.add('fa-solid');
-                this.addLike(user.id);
+                this.addLike(loggedInUser.id);
             }
         });
 
