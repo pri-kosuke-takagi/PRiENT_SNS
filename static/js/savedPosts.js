@@ -46,6 +46,10 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
         console.log('This is classifiedPost: ', classifiedPost);
         const postElement = classifiedPost.createSavedPostElement(classifiedLoggedInUser, classifiedUser, comments, postCard);
 
+        // コメント部分を作成
+        const commentsDiv = classifiedPost.createDivForComments(classifiedLoggedInUser, classifiedUser, comments);
+        postElement.appendChild(commentsDiv);
+
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
         postCard.appendChild(authorDiv);
         postCard.appendChild(postElement);

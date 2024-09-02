@@ -47,16 +47,6 @@ export class Post {
 
         // Title部分を作成
         const postTitle = this.createDivForTitle();
-        // const postTitle = document.createElement('div');
-        // postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
-        // const titleDiv = document.createElement('div');
-        // titleDiv.classList.add('fs-4');
-        // titleDiv.textContent = this.title;
-        // const postedDate = document.createElement('div');
-        // postedDate.classList.add('posted-date');
-        // postedDate.textContent = this.formatDate();
-        // postTitle.appendChild(titleDiv);
-        // postTitle.appendChild(postedDate);
 
         // 画像部分を作成
         const postImage = document.createElement('img');
@@ -100,14 +90,10 @@ export class Post {
         likesAndSaveDiv.appendChild(likesCount);
         likesAndSaveDiv.appendChild(saveButton);
 
-        // コメント部分を作成
-        const commentsDiv = this.createDivForComments(loggedInUser, user, comments);
-
         postDiv.appendChild(postTitle);
         postDiv.appendChild(postImage);
         postDiv.appendChild(postContent);
         postDiv.appendChild(likesAndSaveDiv);
-        postDiv.appendChild(commentsDiv);
 
         return postDiv;
     }
@@ -227,14 +213,10 @@ export class Post {
         likesAndSaveDiv.appendChild(likesCount);
         likesAndSaveDiv.appendChild(saveButton);
 
-        // コメント部分を作成
-        const commentsDiv = this.createDivForComments(loggedInUser, user, comments);
-
         postDiv.appendChild(postTitle);
         postDiv.appendChild(postImage);
         postDiv.appendChild(postContent);
         postDiv.appendChild(likesAndSaveDiv);
-        postDiv.appendChild(commentsDiv);
 
         return postDiv;
     }
@@ -376,6 +358,8 @@ export class Post {
             commentsList.innerHTML = '';
 
             const updatedComments = JSON.parse(localStorage.getItem('comments'));
+            // リロードしなくてもコメントが追加されるようにするために以下の行が必要。
+            comments = updatedComments;
 
             console.log('This is updatedComments: ', updatedComments);
 
