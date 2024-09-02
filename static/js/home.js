@@ -8,9 +8,9 @@ import { createClassifiedUsers } from "/static/js/utils/createClassifiedUsers.js
 import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserClass.js";
 import { fetchCommentSampleData } from "./utils/fetchUtils/fetchCommentSampleData.js";
 
-const postsDiv = document.querySelector('#posts-div');
-const searchButton = document.querySelector('#search-button');
-const navbar = document.querySelector('.navbar');
+const postsDiv = document.getElementById('posts-div');
+const searchButton = document.getElementById('search-button');
+const navbar = document.getElementsByClassName('navbar');
 
 const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
     e.preventDefault();

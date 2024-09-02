@@ -200,7 +200,7 @@ export class User {
 
         const accountImageLink = this.createLinkToProfile();
 
-        const accountImage = this.createProfileImage();
+        const accountImage = this.createProfileImage(['author-picture']);
 
         accountImageDiv.appendChild(accountImageLink);
         accountImageLink.appendChild(accountImage);
@@ -220,11 +220,13 @@ export class User {
     /**
      * ユーザのプロフィール画像(img)を作成する
      */
-    createProfileImage() {
+    createProfileImage(className = null) {
         const accountImage = document.createElement('img');
         accountImage.src = this.profilePicture;
         accountImage.alt = 'profile-picture';
-        accountImage.classList.add('author-picture');
+        if (className !== null) {
+            accountImage.classList.add(...className);
+        }
         return accountImage;
     }
 
@@ -263,5 +265,74 @@ export class User {
             }
         });
         return followButton;
+    }
+
+    /**
+     * ユーザの情報（更新も可能な情報）を表示させる。
+     */
+    createUserInfoDiv() {
+        const userInfoDiv = document.createElement('div');
+        userInfoDiv.classList.add('user-info-div', 'd-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+
+        const accountImageDiv = this.createImageOfProfile();
+
+        const accountName = this.createDivForProfileNameInput(['fs-3']);
+
+        const dateOfBirthDiv = this.createDivForDateOfBirth();
+
+        userInfoDiv.appendChild(accountImageDiv);
+        userInfoDiv.appendChild(accountName);
+        userInfoDiv.appendChild(dateOfBirthDiv);
+
+        return userInfoDiv;
+    }
+
+    /**
+     * ユーザの名前を更新できるようなDivを作成する。
+     */
+    createDivForProfileNameInput(className) {
+        const accountNameDiv = document.createElement('div');
+        accountNameDiv.classList.add(...className);
+
+        const accountNameLabel = document.createElement('label');
+        accountNameLabel.classList.add('fs-6');
+        accountNameLabel.textContent = 'アカウント名:';
+
+        const accountNameInput = document.createElement('input');
+        accountNameInput.type = 'text';
+        accountNameInput.id = 'account-name';
+        accountNameInput.value = this.accountName;
+        accountNameInput.addEventListener('change', (e) => {
+            this.accountName = e.target.value;
+        });
+
+        accountNameDiv.appendChild(accountNameLabel);
+        accountNameDiv.appendChild(accountNameInput);
+
+        return accountNameDiv;
+    }
+
+    /**
+     * ユーザの誕生日の情報のDivを作成する。
+     */
+    createDivForDateOfBirth() {
+        const dateOfBirthDiv = document.createElement('div');
+        
+        const dateOfBirthLabel = document.createElement('label');
+        dateOfBirthLabel.classList.add('fs-6');
+        dateOfBirthLabel.textContent = '生年月日:';
+
+        const dateOfBirthInput = document.createElement('input');
+        dateOfBirthInput.type = 'date';
+        dateOfBirthInput.id = 'date-of-birth';
+        dateOfBirthInput.value = this.dateOfBirth;
+        dateOfBirthInput.addEventListener('change', (e) => {
+            this.dateOfBirth = e.target.value;
+        });
+
+        dateOfBirthDiv.appendChild(dateOfBirthLabel);
+        dateOfBirthDiv.appendChild(dateOfBirthInput);
+
+        return dateOfBirthDiv;
     }
 }
