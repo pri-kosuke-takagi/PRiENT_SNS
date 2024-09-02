@@ -1,0 +1,18 @@
+@import "./common.css";
+
+
+/* ここからダークテーマ用設定 */
+@media (prefers-color-scheme: dark) {
+    /* テーブルの色をダークモードの時は変える */
+    .table {
+        color: var(--main-white);
+    }
+
+    .table a {
+        color: var(--main-white);
+    }
+
+    .table a:hover {
+        color: var(--card-color-dark);
+    }
+}

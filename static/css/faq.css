@@ -1,0 +1,60 @@
+@import "./common.css";
+
+/* form-floating内のスタイル */
+.form-floating {
+    color: var(--main);
+    height: 100%;
+}
+
+/* 検索ボックスDivのスタイル */
+#search-box-div {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+/* 検索ボタンのスタイル */
+#search-button-div {
+    font-size: x-large;
+    padding: 0.5rem;
+    border: solid 2px var(--primary);
+    border-radius: 0.375rem;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* カテゴリリストのスタイル */
+[class^="category-"] {
+}
+
+/* カテゴリタイトルのスタイル */
+[class^="category-"] h3 {
+    margin: 0;
+    padding-left: 0.4rem;
+    width: 100%;
+    font-size: large;
+    font-weight: bold;
+    border-left: solid 0.6rem var(--primary);
+    cursor: pointer;
+}
+
+/* QA用リストタグのスタイル */
+[class^="qa-"] {
+    list-style-type: decimal;
+    margin-left: 2rem;
+    padding: 1rem;
+}
+
+/* クエスションのスタイル */
+[class^="question-"] {
+    font-size: medium;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* アンサーのスタイル */
+[class^="answer-"] {
+    font-size: medium;
+    padding-top: 1rem;
+    font-weight: normal;
+}

@@ -115,6 +115,10 @@ const displayPosts = (posts, comments, classifiedLoggedInUser) => {
 
         const postElement = classifiedPost.createPostElement(classifiedLoggedInUser, classifiedUser, comments);
 
+        // コメント部分を作成
+        const commentsDiv = classifiedPost.createDivForComments(classifiedLoggedInUser, classifiedUser, comments);
+        postElement.appendChild(commentsDiv);
+
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
         const postCard = document.createElement('div');
         postCard.classList.add('post-card');
