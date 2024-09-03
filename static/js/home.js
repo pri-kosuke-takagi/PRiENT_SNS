@@ -9,84 +9,6 @@ import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserCl
 import { fetchCommentSampleData } from "./utils/fetchUtils/fetchCommentSampleData.js";
 
 const postsDiv = document.getElementById('posts-div');
-const searchButton = document.getElementById('search-button');
-const navbar = document.getElementsByClassName('navbar');
-
-const handledSearchButtonClicked = (e, classifiedLoggedInUser, users) => {
-    e.preventDefault();
-    // もうすでに検索モーダルが表示されている場合は、何もしない。
-    if (document.querySelector('.search-modal')) {
-        return;
-    }
-    const userIdOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.id : null;
-    
-    const searchModal = document.createElement('div');
-    searchModal.classList.add('search-modal');
-    const searchModalButtons = document.createElement('div');
-    searchModalButtons.classList.add('search-buttons-div', 'd-flex', 'gap-1', 'align-items-center', 'p-2', 'w-100');
-    const searchModalButtonsDiv = document.createElement('div');
-    searchModalButtonsDiv.classList.add('flex-grow-1', 'd-flex', 'align-items-center', 'justify-content-center', 'gap-2');
-
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.id = 'search-input';
-    searchInput.placeholder = 'Search for users...';
-
-    searchModalButtonsDiv.appendChild(searchInput);
-
-    const closeModalButton = document.createElement('i');
-    closeModalButton.classList.add('fa-solid', 'fa-x', 'close-button');
-    searchModalButtons.appendChild(searchModalButtonsDiv);
-    searchModalButtons.appendChild(closeModalButton);
-
-    searchModal.appendChild(searchModalButtons);
-
-    // 検索結果部分にユーザを表示する。
-    const searchResults = document.createElement('div');
-    searchResults.id = 'search-results';
-    const classifiedUsers = createClassifiedUsers(users);
-    console.log(classifiedUsers.filter(u => u.id !== userIdOfLoggedInUser && u.firstName.toLowerCase().includes(searchInput.value.toLowerCase())));
-    classifiedUsers.forEach(user => {
-        if (user.id === userIdOfLoggedInUser) {
-            return;
-        }
-        const userElement = user.createProfileInSearchModal(classifiedLoggedInUser);
-        searchResults.appendChild(userElement);
-    })
-    searchModal.appendChild(searchResults);
-
-    // 検索インプットのイベントリスナーを追加する。
-    searchInput.addEventListener('input', () => {
-        searchResults.innerHTML = '';
-        classifiedUsers.forEach(user => {
-            if (user.id === userIdOfLoggedInUser) {
-                return;
-            }
-            // ユーザの名前、アカウント名、バイオ、検索ワードが含まれている場合、ユーザを表示する。
-            if (user.firstName.toLowerCase().includes(searchInput.value.toLowerCase())
-            || user.lastName.toLowerCase().includes(searchInput.value.toLowerCase())
-            || user.accountName.toLowerCase().includes(searchInput.value.toLowerCase())
-            || user.bio.toLowerCase().includes(searchInput.value.toLowerCase())) {
-                const userElement = user.createProfileInSearchModal(classifiedLoggedInUser);
-                searchResults.appendChild(userElement);
-            }
-        });
-    });
-
-    // クローズボタンのイベントリスナーを追加する。
-    // const closeModalButton = searchModal.querySelector('.close-button');
-    closeModalButton.addEventListener('click', () => {
-        searchModal.remove();
-    });
-    navbar.after(searchModal);
-
-    // ESCキーを押したときに、検索モーダルを閉じる。
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchModal.remove();
-        }
-    });
-}
 
 const displayPosts = (posts, comments, classifiedLoggedInUser) => {
     const userIdOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.id : null;
@@ -158,8 +80,4 @@ window.onload = async () => {
     console.log('This is comments: ', comments);
 
     displayPosts(posts, comments, classifiedLoggedInUser);
-
-    searchButton.addEventListener('click', (e) => {
-        handledSearchButtonClicked(e, classifiedLoggedInUser, users);
-    });
 }

@@ -1,11 +1,10 @@
-import { fetchUserSampleData } from "/static/js/utils/fetchUserSampleData.js";
-import { fetchPostSampleData } from "/static/js/utils/fetchPostSampleData.js";
+import { fetchUserSampleData } from "/static/js/utils/fetchUtils/fetchUserSampleData.js";
 import { Post } from "/static/js/classes/PostClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
-import { getUserFromKey } from "/static/js/utils/getUserFromKey.js";
-import { getPostByKey } from "/static/js/utils/getPostByKey.js";
-import { turnUserIntoUserClass } from "./utils/turnUserIntoUserClass";
+import { getUserByKey } from "/static/js/utils/getObjectByKeys/getUserByKey.js";
+import { getPostByKey } from "/static/js/utils/getObjectByKeys/getPostByKey.js";
+import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserClass.js";
 
 const usersPostsElement = document.getElementById('posts-div');
 const userProfileDiv = document.getElementById('user-profile');
@@ -58,7 +57,7 @@ window.onload = async () => {
 
     const friedUserId = new URLSearchParams(window.location.search).get('user_id');
     console.log('This is user id of urlParams', friedUserId);
-    const friedUser = getUserFromKey(Number(friedUserId), 'id', true);
+    const friedUser = getUserByKey(Number(friedUserId), 'id', true);
     console.log('This is friedUser: ', friedUser);
 
     displayUserInformation(friedUser, classifiedLoggedInUser);

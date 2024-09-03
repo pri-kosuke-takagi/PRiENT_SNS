@@ -221,6 +221,7 @@ export class User {
      * ユーザのプロフィール画像(img)を作成する
      */
     createProfileImage(className = null) {
+        console.log('This is profilePicture: ', this.profilePicture);
         const accountImage = document.createElement('img');
         accountImage.src = this.profilePicture;
         accountImage.alt = 'profile-picture';
