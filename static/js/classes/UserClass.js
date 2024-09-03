@@ -36,6 +36,13 @@ export class User {
     }
 
     /**
+     * ログアウトするメソッド
+     */
+    logout() {
+        sessionStorage.removeItem('userId');
+    }
+
+    /**
      * ユーザを登録するメソッド 
      * @returns {User | null} 登録したユーザ or null
      */

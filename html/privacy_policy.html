@@ -16,45 +16,10 @@
 <body>
 
     <div class="container-div">
-        <!-- ナビゲーションバー -->
-        <!-- bs-5 snippet を使って元となる nav エレメントを生成 -->
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark flex-column">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
-                aria-label="Toggle navigation"></button>
-            <div class="collapse navbar-collapse flex-column" id="collapsibleNavId">
-                <ul class="navbar-nav me-auto mt-2 mt-lg-0 flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/html/home.html" aria-current="page">Home <span
-                                class="visually-hidden">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/html/post.html">投稿作成</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/html/saved_posts.html">保存一覧</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/html/login.html">ログイン</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/html/register.html">ユーザ登録</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownId">
-                            <a class="dropdown-item" href="#">Action 1</a>
-                            <a class="dropdown-item" href="#">Action 2</a>
-                        </div>
-                    </li>
-                </ul>
-                <button id="search-button" class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                    Search
-                </button>
-            </div>
-        </nav>
+
+        <div id="header-div">
+            <!-- ナビゲーションバーを含むヘッダーが入る -->
+        </div>
 
         <main>
 
@@ -197,6 +162,7 @@
 
     </div>
 
+    <script src="/static/js/header.js" type="module"></script>
     <script src="/static/js/privacyPolicy.js" type="module"></script>
 
     <!-- BootStrap用JSをインポート -->

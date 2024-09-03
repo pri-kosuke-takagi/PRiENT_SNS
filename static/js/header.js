@@ -136,9 +136,9 @@ function createNavbar() {
     const navItems = [
         { href: '/html/home.html', text: 'Home', isAboutUser: false },
         { href: '/html/post.html', text: '投稿作成', isAboutUser: false },
+        { href: '/html/login.html', text: 'ログアウト', isAboutUser: true },
+        { href: '/html/register.html', text: 'ユーザ登録', isAboutUser: true },
         { href: '/html/saved_posts.html', text: '保存済み投稿', isAboutUser: true },
-        { href: '/html/login.html', text: 'ログイン', isAboutUser: false },
-        { href: '/html/register.html', text: 'ユーザ登録', isAboutUser: false },
         { href: '/html/profile.html', text: 'ユーザプロファイル', isAboutUser: true },
         { href: '/html/privacy_policy.html', text: 'プライバシーポリシー', isAboutUser: false },
         { href: '/html/terms_of_use.html', text: '利用規約', isAboutUser: false },
@@ -158,11 +158,13 @@ function createNavbar() {
         li.classList.add('nav-item');
         nav.appendChild(li);
 
-        // anchorタグを生成
+        // anchorタグを生成 (ログアウトボタンの場合はbuttonタグを生成)
         const a = document.createElement('a');
         a.classList.add('nav-link');
         a.href = item.href;
         a.textContent = item.text;
+
+        // item.activeがtrueの場合は、そのページにいることを意味するので、activeクラスを追加する。
         if (item.active) {
             a.classList.add('active');
         }
@@ -183,10 +185,24 @@ function createNavbar() {
             const dropdownItems = navItems.filter(item => item.isAboutUser);
 
             dropdownItems.forEach(dropdownItem => {
-                const dropdownItemElement = document.createElement('a');
-                dropdownItemElement.classList.add('dropdown-item');
-                dropdownItemElement.href = dropdownItem.href;
+
+                let dropdownItemElement = null;
+
+                // ログアウトボタンが押された時の処理
+                if (dropdownItem.text === 'ログアウト') {
+                    dropdownItemElement = document.createElement('button');
+                    dropdownItemElement.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        classifiedLoggedInUser.logout();
+                        window.location.href = '/html/login.html';
+                    });
+                } else {
+                    dropdownItemElement = document.createElement('a');
+                    dropdownItemElement.href = dropdownItem.href;
+                }
+
                 dropdownItemElement.textContent = dropdownItem.text;
+                dropdownItemElement.classList.add('dropdown-item');
                 dropdown.appendChild(dropdownItemElement);
             });
         }
