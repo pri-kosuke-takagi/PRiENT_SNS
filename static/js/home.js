@@ -63,7 +63,7 @@ window.onload = async () => {
 
     if (!loggedInUser) {
         // ログインしていない場合は、ログインページにリダイレクトする。
-        window.location.href = '/html/login.html';
+        window.location.href = '/views/html/login.html';
         return;
     }
 

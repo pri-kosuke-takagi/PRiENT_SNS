@@ -220,7 +220,7 @@ export class User {
      */
     createLinkToProfile() {
         const accountImageLink = document.createElement('a');
-        accountImageLink.href = `/html/others_account.html?user_id=${this.id}`;
+        accountImageLink.href = `/views/html/others_account.html?user_id=${this.id}`;
         return accountImageLink;
     }
 

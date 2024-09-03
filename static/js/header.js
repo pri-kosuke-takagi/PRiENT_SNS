@@ -134,16 +134,16 @@ function createNavbar() {
 
     // ナビゲーションアイテム
     const navItems = [
-        { href: '/html/home.html', text: 'Home', isAboutUser: false },
-        { href: '/html/post.html', text: '投稿作成', isAboutUser: false },
-        { href: '/html/login.html', text: 'ログアウト', isAboutUser: true },
-        { href: '/html/register.html', text: 'ユーザ登録', isAboutUser: true },
-        { href: '/html/saved_posts.html', text: '保存済み投稿', isAboutUser: true },
-        { href: '/html/profile.html', text: 'ユーザプロファイル', isAboutUser: true },
-        { href: '/html/privacy_policy.html', text: 'プライバシーポリシー', isAboutUser: false },
-        { href: '/html/terms_of_use.html', text: '利用規約', isAboutUser: false },
-        { href: '/html/specified_commercial_transaction.html', text: '特定商取引法', isAboutUser: false },
-        { href: '/html/faq.html', text: 'よくある質問', isAboutUser: false },
+        { href: '/views/html/home.html', text: 'Home', isAboutUser: false },
+        { href: '/views/html/post.html', text: '投稿作成', isAboutUser: false },
+        { href: '/views/html/login.html', text: 'ログアウト', isAboutUser: true },
+        { href: '/views/html/register.html', text: 'ユーザ登録', isAboutUser: true },
+        { href: '/views/html/saved_posts.html', text: '保存済み投稿', isAboutUser: true },
+        { href: '/views/html/profile.html', text: 'ユーザプロファイル', isAboutUser: true },
+        { href: '/views/html/privacy_policy.html', text: 'プライバシーポリシー', isAboutUser: false },
+        { href: '/views/html/terms_of_use.html', text: '利用規約', isAboutUser: false },
+        { href: '/views/html/specified_commercial_transaction.html', text: '特定商取引法', isAboutUser: false },
+        { href: '/views/html/faq.html', text: 'よくある質問', isAboutUser: false },
         { href: '#', text: `${classifiedLoggedInUser.accountName}`, dropdown: true, isAboutUser: false },
     ];
 
@@ -194,7 +194,7 @@ function createNavbar() {
                     dropdownItemElement.addEventListener('click', (e) => {
                         e.preventDefault();
                         classifiedLoggedInUser.logout();
-                        window.location.href = '/html/login.html';
+                        window.location.href = '/views/html/login.html';
                     });
                 } else {
                     dropdownItemElement = document.createElement('a');

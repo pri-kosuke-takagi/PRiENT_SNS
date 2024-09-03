@@ -168,7 +168,7 @@ const handleRegister = async (e, users) => {
             // ログインに成功した場合は、ユーザデータをセッションストレージに保存し、
             alert('register successful');
             // ホーム画面にリダイレクトする。
-            window.location.href = '/html/home.html'; 
+            window.location.href = '/views/html/home.html'; 
         } else {
             // ユーザ登録に失敗した場合は、エラーメッセージを表示する。
             alert('register failed');
