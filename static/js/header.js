@@ -94,6 +94,7 @@ function createNavbar() {
 
     // ログインユーザを取得する。
     const loggedInUserId = sessionStorage.getItem('userId');
+    console.log('This is loggedInUserId: ', loggedInUserId);
     let classifiedLoggedInUser = null;
     if (loggedInUserId) {
         classifiedLoggedInUser = getUserByKey(Number(loggedInUserId), 'id', true);
@@ -101,7 +102,8 @@ function createNavbar() {
 
     // メインとなるナビゲーションバー
     const navbar = document.createElement('nav');
-    navbar.classList.add('navbar', 'navbar-expand-sm', 'navbar-dark', 'bg-dark', 'flex-column');
+    navbar.classList.add('navbar', 'navbar-expand-sm', 'flex-column');
+    navbar.id = 'header-navbar';
 
     // ナビバーブランド
     const brand = document.createElement('a');
@@ -136,22 +138,24 @@ function createNavbar() {
     const navItems = [
         { href: '/views/html/home.html', text: 'Home', isAboutUser: false },
         { href: '/views/html/post.html', text: '投稿作成', isAboutUser: false },
-        { href: '/views/html/login.html', text: 'ログアウト', isAboutUser: true },
+        { href: '/views/html/saved_posts.html', text: '保存済み投稿', isAboutUser: false },
+        { href: '/views/html/profile.html', text: 'ユーザプロファイル', isAboutUser: false },
         { href: '/views/html/register.html', text: 'ユーザ登録', isAboutUser: true },
-        { href: '/views/html/saved_posts.html', text: '保存済み投稿', isAboutUser: true },
-        { href: '/views/html/profile.html', text: 'ユーザプロファイル', isAboutUser: true },
-        { href: '/views/html/privacy_policy.html', text: 'プライバシーポリシー', isAboutUser: false },
-        { href: '/views/html/terms_of_use.html', text: '利用規約', isAboutUser: false },
-        { href: '/views/html/specified_commercial_transaction.html', text: '特定商取引法', isAboutUser: false },
-        { href: '/views/html/faq.html', text: 'よくある質問', isAboutUser: false },
+        { href: '/views/html/login.html', text: 'ログアウト', isAboutUser: true },
         { href: '#', text: `${classifiedLoggedInUser.accountName}`, dropdown: true, isAboutUser: false },
     ];
 
     navItems.forEach(item => {
 
         // URLの末尾から現在のページを取得する。
-        const currentPage = location.href.split('/').pop();
-        item.active = item.href.includes(currentPage);
+        let endOfUrl = location.href.split('/').pop();
+        if (endOfUrl.includes('#')) {
+            endOfUrl = endOfUrl.split('#')[0];
+        }
+        if (endOfUrl.includes('?')) {
+            endOfUrl = endOfUrl.split('?')[0];
+        }
+        item.active = item.href.includes(endOfUrl);
 
         // liタグを生成
         const li = document.createElement('li');
@@ -167,6 +171,7 @@ function createNavbar() {
         // item.activeがtrueの場合は、そのページにいることを意味するので、activeクラスを追加する。
         if (item.active) {
             a.classList.add('active');
+            a.setAttribute('aria-current', 'page');
         }
 
         // ドロップダウンメニューの場合の処理

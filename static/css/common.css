@@ -40,11 +40,20 @@ html {
 }
 
 .container-div {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
   width: 100%;
   padding: 2rem;
+}
+
+.navbar-nav .nav-link,
+.navbar-brand {
+  color: var(--main-black);
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--main-white);
+  font-weight: bolder;
 }
 
 main {
@@ -55,6 +64,41 @@ main {
   height: 100%;
   width: 100%;
 }
+
+footer {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+#footer-div {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: end;
+  height: 100%;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+#footer-div-for-pages {
+}
+
+#footer-navbar-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+/* #footer-navbar-nav .nav-link {
+  color: var(--main-black);
+} */
+
+/* #footer-navbar-nav .nav-link.active {
+  color: var(--main);
+} */
+
+/* #footer-div-for-project-name {
+  padding-right: 0.5rem;
+} */
 
 #alert-message {
   color: var(--alert-color);
@@ -67,5 +111,26 @@ main {
     background: var(--background-dark);
     color: var(--main-white);
     min-height: 100%;
+  }
+
+  .navbar-nav .nav-link.active {
+    color: var(--main);
+  }
+
+  .navbar-nav .nav-link,
+  .navbar-brand {
+    color: var(--main-white);
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: var(--card-color-dark);
+  }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  #footer-div {
+    grid-template-columns: 1fr;
+    justify-items: auto;
   }
 }
