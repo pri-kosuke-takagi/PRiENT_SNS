@@ -36,7 +36,6 @@ export class Post {
         return post;
     }
 
-
     /**
      * 投稿をHTML要素に変換して表示させるメソッド (ホーム画面)
      */
@@ -127,7 +126,6 @@ export class Post {
         updatePostData(this);
         window.location.reload();
     }
-
 
     removeComment(commentId) {
         this.comments = this.comments.filter(c => c.id !== commentId);
@@ -245,31 +243,76 @@ export class Post {
         const commentsDiv = document.createElement('div');
         commentsDiv.classList.add('comments-div');
 
-        // コメントタイトルを作成
-        const commentTitle = document.createElement('div')
+        // コメントリストを格納するためのdivを作成 (Modalとして表示)
+        const modalForCommentsList = document.createElement('div');
+        modalForCommentsList.classList.add('modal', 'fade', 'comments-list-modal');
+        modalForCommentsList.id = 'comments-list-modal-' + this.id;
+        modalForCommentsList.tabIndex = -1;
+        modalForCommentsList.setAttribute('aria-hidden', 'true');
+        // modalForCommentsList.setAttribute('aria-labelledby', 'comments-list-modal-' + this.id);
+
+        // modal-dialogを作成
+        const modalDialog = document.createElement('div');
+        modalDialog.classList.add('modal-dialog');
+        modalForCommentsList.appendChild(modalDialog);
+
+        // modal-contentを作成
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('modal-content');
+        modalDialog.appendChild(modalContent);
+
+        // modal-headerを作成
+        const modalHeader = document.createElement('div');
+        modalHeader.classList.add('modal-header', 'flex-column');
+        modalContent.appendChild(modalHeader);
+
+        const modalTitle = this.createDivForTitle();
+        modalTitle.classList.add('modal-title');
+        modalHeader.appendChild(modalTitle);
+
+        // modal-bodyを作成
+        const modalBody = document.createElement('div');
+        modalBody.classList.add('modal-body');
+        modalContent.appendChild(modalBody);
+        
+        // 画像部分を作成
+        const postImage = document.createElement('img');
+        if (this.imageUrl) {
+            this.insertImageToElement(postImage, this.imageUrl);
+        }
+
+        // 本文部分を作成
+        const postContent = document.createElement('p');
+        postContent.textContent = this.content;
+
+        modalBody.appendChild(postImage);
+        modalBody.appendChild(postContent);
+
+        // modal-footerを作成
+        const modalFooter = document.createElement('div');
+        modalFooter.classList.add('modal-footer', 'd-flex', 'justify-content-center');
+        modalFooter.id = 'modal-footer-' + this.id;
+        modalContent.appendChild(modalFooter);
+
+        // コメントタイトルを作成し、コメントリストを表示するように。
+        const commentTitle = document.createElement('button')
         commentTitle.textContent = 'コメント';
+        commentTitle.classList.add('comment-title-' + this.id, 'btn', 'btn-primary');
+        commentTitle.setAttribute('data-bs-toggle', 'modal');
+        commentTitle.setAttribute('data-bs-target', `#comments-list-modal-${this.id}`);
 
         // コメントリストを作成
         const commentsList = document.createElement('ul');
-        commentsList.classList.add('comments-list-' + this.id, 'd-none');
+        commentsList.classList.add('comments-list-' + this.id, 'w-100');
         this.makeArrayOfCommentsCommentLists(comments, commentsList);
+        modalFooter.appendChild(commentsList);
 
-        // コメントリストにコメントを追加するためのtextarea要素を作成
-        const commentInput = this.createCommentInput();
-        commentsList.appendChild(commentInput);
-
-        // コメントタイトルをクリックしたら、コメントリストを表示するように。
-        commentTitle.classList.add('comment-title-' + this.id);
-        commentTitle.addEventListener('click', () => {
-            commentsList.classList.toggle('d-none');
-        })
-
-        // コメントボタンを作成
-        const commentButton = this.createCommentButton(loggedInUser, comments);
+        // コメントに関するTextareaとボタンを格納するためのdivを作成
+        const divForCommentInput = this.createDivForInputAndCommentButton(loggedInUser, comments);
+        modalFooter.appendChild(divForCommentInput);
 
         commentsDiv.appendChild(commentTitle);
-        commentsDiv.appendChild(commentsList);
-        commentsList.appendChild(commentButton);
+        commentsDiv.appendChild(modalForCommentsList);
 
         return commentsDiv;
     }
@@ -288,7 +331,7 @@ export class Post {
         // コメントしたユーザのプロファイルを取得する。
         const userDiv = user.createProfileOnComment();
 
-        // コメントの内容を取得する。
+        // コメントの内容を取得し、div要素に格納する。
         const commentContent = this.createContentForComment(comment);
 
         if (commentContent === null) {
@@ -321,7 +364,7 @@ export class Post {
      */
     createCommentButton(loggedInUser, comments) {
         const commentButton = document.createElement('button');
-        commentButton.classList.add('comment-button');
+        commentButton.classList.add('comment-button', 'col-2');
         commentButton.dataset.id = this.id;
         commentButton.textContent = 'コメントする';
 
@@ -348,27 +391,26 @@ export class Post {
             console.log('This is classifiedComment2: ', classifiedComment);
 
             this.comments.push(classifiedComment.id);
-            // this.addComment(classifiedComment.id);
 
             console.log('This is comments of post: ', this.comments);
-
-            updatePostData(this);
-
-            const commentsList = document.querySelector('.comments-list-' + this.id);
-            commentsList.innerHTML = '';
 
             const updatedComments = JSON.parse(localStorage.getItem('comments'));
             // リロードしなくてもコメントが追加されるようにするために以下の行が必要。
             comments = updatedComments;
 
-            console.log('This is updatedComments: ', updatedComments);
+            const commentsList = document.querySelector('.comments-list-' + this.id);
 
             this.makeArrayOfCommentsCommentLists(updatedComments, commentsList, true);
 
+            updatePostData(this);
+
             commentInput.value = '';
 
-            commentsList.appendChild(commentInput);
-            commentsList.appendChild(commentButton);
+            const divForCommentInput = this.createDivForInputAndCommentButton(loggedInUser, comments);
+            const modalFooter = document.getElementById('modal-footer-' + this.id);
+            modalFooter.innerHTML = '';
+            modalFooter.appendChild(commentsList);
+            modalFooter.appendChild(divForCommentInput);
         })
 
         return commentButton;
@@ -386,12 +428,17 @@ export class Post {
      */
     createCommentInput() {
 
+        const commentInputDiv = document.createElement('div');
+        commentInputDiv.classList.add('col-8');
+
         const commentInput = document.createElement('textarea');
-
-        commentInput.id = 'comment-input-' + this.id;
         commentInput.placeholder = 'コメントを入力してください';
+        commentInput.id = 'comment-input-' + this.id;
+        commentInput.classList.add('comment-input', 'form-control');
 
-        return commentInput;
+        commentInputDiv.appendChild(commentInput);
+
+        return commentInputDiv;
     }
 
     /**
@@ -402,9 +449,20 @@ export class Post {
 
         console.log('This is comments of post: ', this.comments);
 
+        if (isCommentListRefreshed) {
+            commentsList.innerHTML = '';
+        }
+
         comments.forEach(c => {
             if (c.post === this.id) {
                 const classifiedComment = turnCommentIntoCommentClass(c);
+                if (
+                    classifiedComment === null ||
+                    classifiedComment.content === '' ||
+                    !classifiedComment.content
+                ) {
+                    return;
+                }
                 const commentLi = this.createLiForComment(classifiedComment);
                 commentsList.appendChild(commentLi);
             }
@@ -417,7 +475,7 @@ export class Post {
     createDivForTitle() {
 
         const postTitle = document.createElement('div');
-        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between');
+        postTitle.classList.add('d-flex', 'align-items-center', 'justify-content-between', 'w-100');
 
         const titleDiv = document.createElement('div');
         titleDiv.classList.add('fs-4');
@@ -436,7 +494,7 @@ export class Post {
      */
     createElementForPostedDate() {
         const postedDate = document.createElement('div');
-        postedDate.classList.add('posted-date');
+        postedDate.classList.add('posted-date', 'text-muted');
         postedDate.textContent = this.formatDate();
 
         return postedDate;
@@ -485,5 +543,44 @@ export class Post {
         likeCount.textContent = this.likes.length > 0 ? `${this.likes.length} likes` : '';
 
         return likeCount;
+    }
+
+    /**
+     * コメントするボタンや、コメントインプット用のdivを作成する。
+     */
+    // createDivForInputAndCommentButton(loggedInUser, comments, divForCommentInput) {
+    createDivForInputAndCommentButton(loggedInUser, comments) {
+
+        // コメントに関するTextareaとボタンを格納するdivを取得
+        const divForCommentInput = document.createElement('div');
+        divForCommentInput.id = 'div-for-input-and-comment-button-' + this.id;
+        divForCommentInput.classList.add('row', 'align-items-center', 'justify-content-between', 'w-100');
+
+        // コメントリストにコメントを追加するためのtextarea要素を作成
+        const commentInput = this.createCommentInput();
+        divForCommentInput.appendChild(commentInput);
+
+        // コメントを送信するボタンを作成
+        const commentButton = this.createCommentButton(loggedInUser, comments);
+        divForCommentInput.appendChild(commentButton);
+
+        // コメントモダルの閉じるボタンを作成
+        const closeButton = this.createCloseButtonForCommentModal();
+        divForCommentInput.appendChild(closeButton);
+
+        return divForCommentInput;
+    }
+
+    /**
+     * コメントモダルを閉じるボタンを作成する。
+     */
+    createCloseButtonForCommentModal() {
+        const closeButton = document.createElement('button');
+        closeButton.setAttribute('data-bs-dismiss', 'modal');
+        closeButton.setAttribute('aria-label', 'Close');
+        closeButton.classList.add('col-2');
+        closeButton.textContent = '閉じる';
+
+        return closeButton;
     }
 }
