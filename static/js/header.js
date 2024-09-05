@@ -166,7 +166,7 @@ function createNavbar() {
     // ナビゲーションアイテム
     const navItems = [
         { href: '/views/html/home.html', text: 'Home', isAboutUser: false },
-        { href: '/views/html/post.html', text: '投稿作成', isAboutUser: false },
+        { href: '/views/html/create_post.html', text: '投稿作成', isAboutUser: false },
         { href: '/views/html/saved_posts.html', text: '保存済み投稿', isAboutUser: false },
         { href: '/views/html/profile.html', text: 'ユーザプロファイル', isAboutUser: false },
         { href: '/views/html/register.html', text: 'ユーザ登録', isAboutUser: true },

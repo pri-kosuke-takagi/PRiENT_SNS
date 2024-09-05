@@ -12,7 +12,7 @@ function createFooter() {
 
     // 各ページを格納するDivを作成
     const footerDivForPages = document.createElement('div');
-    footerDivForPages.id = 'footer-div-for-pages';
+    footerDivForPages.id = 'div-for-pages-in-footer';
     footerDiv.appendChild(footerDivForPages);
 
     // ナビゲーションバーを作成

@@ -24,3 +24,5 @@ https://placehold.co を使用。
 
 - arrow svg (コメント送信)
 https://www.svgrepo.com/svg/40110/right-arrow?edit=true
+
+- no-image.jpg:http://design-ec.com/?p=55
