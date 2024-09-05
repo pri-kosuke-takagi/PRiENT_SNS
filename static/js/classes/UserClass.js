@@ -78,8 +78,9 @@ export class User {
     createProfileOnPost(loggedInUser) {
         const authorDiv = document.createElement('div');
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');
+
         const authorInfoDiv = document.createElement('div');
-        authorInfoDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        authorInfoDiv.classList.add('author-info-div', 'd-flex', 'gap-2', 'align-items-center', 'justify-content-center');
 
         const accountImageDiv = this.createImageOfProfile();
 
@@ -117,7 +118,7 @@ export class User {
         authorDiv.classList.add('user-div', 'd-flex', 'align-items-center', 'justify-content-between');
 
         const authorInfoDiv = document.createElement('div');
-        authorInfoDiv.classList.add('d-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+        authorInfoDiv.classList.add('author-info-div');
 
         const authorInfoImage = this.createImageOfProfile();
 
@@ -242,13 +243,20 @@ export class User {
      * フォローボタンを作成する。
      */
     makeFollowButton(classifiedLoggedInUser) {
+        const followDiv = document.createElement('div');
+        followDiv.classList.add('follow-div', 'd-flex', 'gap-2', 'align-items-center', 'justify-content-center');
+
         const followButton = document.createElement('button');
         const isFollowing = classifiedLoggedInUser.follows.includes(this.id);
-        followButton.classList.add(`follow-button-${this.id}`, 'btn', 'btn-outline-success', 'fs-6');
+        followButton.classList.add(`follow-button-${this.id}`, 'fs-6', 'button-to-follow');
+
+        followDiv.appendChild(followButton);
+
         if (isFollowing) {
-            followButton.classList.add('following-btn');
+            followButton.classList.add('following-btn', 'following');
             followButton.textContent = 'フォロー済み';
         } else {
+            followButton.classList.remove('following');
             followButton.classList.add('not-follow-btn');
             followButton.textContent = 'フォローする';
         }
@@ -257,7 +265,7 @@ export class User {
             // まだフォローしていない場合のクリック
             if (followButton.classList.contains('not-follow-btn')) {
                 followButtonsWithSameId.forEach(f => {
-                    f.classList.add('following-btn');
+                    f.classList.add('following-btn', 'following');
                     f.classList.remove('not-follow-btn');
                     f.textContent = 'フォロー済み';
                     classifiedLoggedInUser.addFollow(this.id);
@@ -266,13 +274,14 @@ export class User {
                 // すでにフォローしている場合
                 followButtonsWithSameId.forEach(f => {
                     f.classList.add('not-follow-btn');
-                    f.classList.remove('following-btn');
+                    f.classList.remove('following');
                     f.textContent = 'フォローする';
                     classifiedLoggedInUser.removeFollow(this.id);
                 })
             }
         });
-        return followButton;
+
+        return followDiv;
     }
 
     /**

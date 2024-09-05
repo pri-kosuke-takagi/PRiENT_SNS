@@ -2,37 +2,63 @@ import { getUserByKey } from './utils/getObjectByKeys/getUserByKey.js';
 import { createClassifiedUsers } from './utils/createClassifiedUsers.js';
 
 const headerDiv = document.getElementById('header-div');
+const mainDiv = document.querySelector('main');
+const containerDiv = document.getElementById('container-div');
 
-// 検索ボタンが表示された時に呼び出される関数。
-const handledSearchButtonClicked = (e, classifiedLoggedInUser) => {
+/**
+ * 検索モダルが閉じられたときに呼び出される関数。
+ */
+const handleSearchModalClosed = (searchModal) => {
+    console.log('searchModal: ', searchModal);
+    searchModal.classList.add('invisible-now');
 
-    const users = JSON.parse(localStorage.getItem('users'));
+    // このタイムアウトは、CSSのアニメーションとタイミングを合わせるために必要。
+    setTimeout(() => {
+        searchModal.remove();
+        containerDiv.style.gridTemplateColumns = '1fr 4fr';
+    }, 1000);
+}
 
+/**
+ * 検索ボタンが表示された時に呼び出される関数。
+ */
+const handleSearchButtonClicked = (e, classifiedLoggedInUser) => {
     e.preventDefault();
     // もうすでに検索モーダルが表示されている場合は、何もしない。
     if (document.getElementById('search-modal')) {
         return;
     }
+
+    const users = JSON.parse(localStorage.getItem('users'));
+
     const userIdOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.id : null;
 
+    // CSSで投稿を格納するmainタグとの表示バランスを調整する。
+    containerDiv.style.gridTemplateColumns = '1fr 3fr 4fr';
+
+    // 検索モーダルを生成する。
     const searchModal = document.createElement('div');
     searchModal.classList.add('search-modal');
     searchModal.id = 'search-modal';
+
+    headerDiv.after(searchModal);
+
     const searchModalButtons = document.createElement('div');
     searchModalButtons.classList.add('search-buttons-div', 'd-flex', 'gap-1', 'align-items-center', 'p-2', 'w-100');
+
     const searchModalButtonsDiv = document.createElement('div');
     searchModalButtonsDiv.classList.add('flex-grow-1', 'd-flex', 'align-items-center', 'justify-content-center', 'gap-2');
 
     const searchInput = document.createElement('input');
+    searchInput.classList.add('search-input', 'form-control', 'w-100');
     searchInput.type = 'text';
     searchInput.id = 'search-input';
     searchInput.placeholder = 'Search...';
-
     searchModalButtonsDiv.appendChild(searchInput);
 
     const closeModalButton = document.createElement('span');
     closeModalButton.textContent = '閉じる';
-    closeModalButton.classList.add('close-button');
+    closeModalButton.classList.add('button-to-close-search-modal');
     searchModalButtons.appendChild(searchModalButtonsDiv);
     searchModalButtons.appendChild(closeModalButton);
 
@@ -41,6 +67,7 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser) => {
     // 検索結果部分にユーザを表示する。
     const searchResults = document.createElement('div');
     searchResults.id = 'search-results';
+    searchModal.appendChild(searchResults);
 
     const classifiedUsers = createClassifiedUsers(users);
     classifiedUsers.forEach(user => {
@@ -50,8 +77,6 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser) => {
         const userElement = user.createProfileInSearchModal(classifiedLoggedInUser);
         searchResults.appendChild(userElement);
     })
-
-    searchModal.appendChild(searchResults);
 
     // 検索インプットのイベントリスナーを追加する。
     searchInput.addEventListener('input', () => {
@@ -74,17 +99,21 @@ const handledSearchButtonClicked = (e, classifiedLoggedInUser) => {
     // クローズボタンのイベントリスナーを追加する。
     // const closeModalButton = searchModal.querySelector('.close-button');
     closeModalButton.addEventListener('click', () => {
-        searchModal.remove();
+        handleSearchModalClosed(searchModal);
     });
-
-    headerDiv.after(searchModal);
 
     // ESCキーを押したときに、検索モーダルを閉じる。
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            searchModal.remove();
+            handleSearchModalClosed(searchModal);
         }
     });
+
+    // モーダルが表示された時に、検索インプットにフォーカスを当てる。
+    // すぐフォーカスすると不自然なので、少し待ってからフォーカスする。
+    setTimeout(() => {
+        searchInput.focus();
+    }, 1500);
 }
 
 /**
@@ -102,7 +131,7 @@ function createNavbar() {
 
     // メインとなるナビゲーションバー
     const navbar = document.createElement('nav');
-    navbar.classList.add('navbar', 'navbar-expand-sm', 'flex-column');
+    navbar.classList.add('navbar', 'navbar-expand-sm', 'flex-column', 'header-navbar');
     navbar.id = 'header-navbar';
 
     // ナビバーブランド
@@ -218,16 +247,16 @@ function createNavbar() {
         }
     });
 
-    // Searchボタン
+    // 検索ボタン
     const searchButton = document.createElement('button');
     searchButton.id = 'search-button';
-    searchButton.classList.add('btn', 'btn-outline-success', 'my-2', 'my-sm-0');
+    searchButton.classList.add('search-button-in-header', 'my-2', 'my-sm-0');
     searchButton.type = 'button';
     searchButton.textContent = '検索';
     collapse.appendChild(searchButton);
 
     searchButton.addEventListener('click', (e) => {
-        handledSearchButtonClicked(e, classifiedLoggedInUser);
+        handleSearchButtonClicked(e, classifiedLoggedInUser);
     });
 
     return navbar;

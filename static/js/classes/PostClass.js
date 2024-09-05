@@ -42,7 +42,7 @@ export class Post {
     createPostElement(loggedInUser, user, comments) {
         const isLiked = this.likes.includes(loggedInUser.id);
         const postDiv = document.createElement('div');
-        postDiv.classList.add('post');
+        postDiv.classList.add('post-main-div');
 
         // Title部分を作成
         const postTitle = this.createDivForTitle();
@@ -59,34 +59,25 @@ export class Post {
 
         // いいねと一時保存を格納するDivを作成
         const likesAndSaveDiv = document.createElement('div');
-        likesAndSaveDiv.classList.add('likes-div', 'd-flex', 'gap-2');
+        likesAndSaveDiv.classList.add('likes-div');
+        likesAndSaveDiv.id = 'likes-and-save-div-' + this.id;
 
         // いいねボタン部分を作成
         const likeButton = this.createLikeButton(loggedInUser, isLiked);
 
-        // いいね数が0より大きい場合は表示する
-        const likesCount = this.createLikeCountElement(isLiked);
+        // // いいね数が0より大きい場合は表示する
+        // const likesCount = this.createLikeCountElement(isLiked);
+        // likesAndSaveDiv.appendChild(likesCount);
+
+
+        // コメントタイトルを作成し、コメントリストを表示するように。
+        const commentTitle = this.createCommentTitle();
 
         // 一時保存ボタンを作成する
-        const saveButton = document.createElement('button');
-        saveButton.classList.add('save-button');
-        saveButton.textContent = (loggedInUser.savedPosts && loggedInUser.savedPosts.includes(this.id)) ? '保存済み' : '保存する';
-
-        // 一時保存ボタンのイベントリスナーを追加する
-        saveButton.addEventListener('click', () => {
-            console.log('This is user before savePost: ', loggedInUser);
-            if (saveButton.textContent === '保存済み') {
-                saveButton.textContent = '保存する';
-                loggedInUser = this.unsavePost(loggedInUser);
-            } else {
-                saveButton.textContent = '保存済み';
-                loggedInUser = this.savePost(loggedInUser);
-            }
-            console.log('This is user after savePost: ', loggedInUser);
-        });
+        const saveButton = this.createSaveButton(loggedInUser);
 
         likesAndSaveDiv.appendChild(likeButton);
-        likesAndSaveDiv.appendChild(likesCount);
+        likesAndSaveDiv.appendChild(commentTitle);
         likesAndSaveDiv.appendChild(saveButton);
 
         postDiv.appendChild(postTitle);
@@ -125,6 +116,14 @@ export class Post {
         console.log(`The post ${this.id} has been updated on removeLike:`, this);
         updatePostData(this);
         window.location.reload();
+    }
+
+    toggleLike(userId) {
+        if (this.likes.includes(userId)) {
+            this.removeLike(userId);
+        } else {
+            this.addLike(userId);
+        }
     }
 
     removeComment(commentId) {
@@ -245,7 +244,7 @@ export class Post {
 
         // コメントリストを格納するためのdivを作成 (Modalとして表示)
         const modalForCommentsList = document.createElement('div');
-        modalForCommentsList.classList.add('modal', 'fade', 'comments-list-modal');
+        modalForCommentsList.classList.add('modal', 'fade', 'comments-list-modal', 'modal-lg');
         modalForCommentsList.id = 'comments-list-modal-' + this.id;
         modalForCommentsList.tabIndex = -1;
         modalForCommentsList.setAttribute('aria-hidden', 'true');
@@ -274,7 +273,7 @@ export class Post {
         const modalBody = document.createElement('div');
         modalBody.classList.add('modal-body');
         modalContent.appendChild(modalBody);
-        
+
         // 画像部分を作成
         const postImage = document.createElement('img');
         if (this.imageUrl) {
@@ -294,13 +293,6 @@ export class Post {
         modalFooter.id = 'modal-footer-' + this.id;
         modalContent.appendChild(modalFooter);
 
-        // コメントタイトルを作成し、コメントリストを表示するように。
-        const commentTitle = document.createElement('button')
-        commentTitle.textContent = 'コメント';
-        commentTitle.classList.add('comment-title-' + this.id, 'btn', 'btn-primary');
-        commentTitle.setAttribute('data-bs-toggle', 'modal');
-        commentTitle.setAttribute('data-bs-target', `#comments-list-modal-${this.id}`);
-
         // コメントリストを作成
         const commentsList = document.createElement('ul');
         commentsList.classList.add('comments-list-' + this.id, 'w-100');
@@ -311,7 +303,6 @@ export class Post {
         const divForCommentInput = this.createDivForInputAndCommentButton(loggedInUser, comments);
         modalFooter.appendChild(divForCommentInput);
 
-        commentsDiv.appendChild(commentTitle);
         commentsDiv.appendChild(modalForCommentsList);
 
         return commentsDiv;
@@ -363,10 +354,15 @@ export class Post {
      * 「コメントする」ボタンを作成する。
      */
     createCommentButton(loggedInUser, comments) {
-        const commentButton = document.createElement('button');
-        commentButton.classList.add('comment-button', 'col-2');
+        const commentButton = document.createElement('div');
+        commentButton.classList.add('comment-button', 'col-2', 'arrow-container');
+        // commentButton.classList.add('comment-button', 'col-2');
         commentButton.dataset.id = this.id;
-        commentButton.textContent = 'コメントする';
+        // commentButton.textContent = 'コメントする';
+
+        // コメントボタンのアローアイコン
+        const arrowIcon = this.createArrowOfSendingComment();
+        commentButton.appendChild(arrowIcon);
 
         commentButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -414,6 +410,121 @@ export class Post {
         })
 
         return commentButton;
+    }
+
+    /**
+     * コメントのArrowボタンを作成する
+     */
+    createArrowOfSendingComment() {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('fill', '#67a7cc');
+        svg.setAttribute('version', '1.1');
+        svg.setAttribute('id', 'Capa_1_' + this.id);
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        svg.setAttribute('width', '80px');
+        svg.setAttribute('height', '80px');
+        svg.setAttribute('viewBox', '0 0 45.513 45.512');
+        svg.setAttribute('xml:space', 'preserve');
+
+        // バックグラウンドを作成
+        const bgCarrier = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        bgCarrier.setAttribute('id', 'SVGRepo_bgCarrier');
+        bgCarrier.setAttribute('stroke-width', '0');
+        svg.appendChild(bgCarrier);
+
+        // トレーサー
+        const tracerCarrier = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        tracerCarrier.setAttribute('id', 'SVGRepo_tracerCarrier');
+        tracerCarrier.setAttribute('stroke-linecap', 'round');
+        tracerCarrier.setAttribute('stroke-linejoin', 'round');
+        svg.appendChild(tracerCarrier);
+
+        // アイコングループを作成
+        const iconCarrier = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        iconCarrier.setAttribute('id', 'SVGRepo_iconCarrier');
+        svg.appendChild(iconCarrier);
+
+        // パスグループを作成
+        const pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        iconCarrier.appendChild(pathGroup);
+
+        // パスを作成
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M44.275,19.739L30.211,5.675c-0.909-0.909-2.275-1.18-3.463-0.687c-1.188,0.493-1.959,1.654-1.956,2.938l0.015,5.903 l-21.64,0.054C1.414,13.887-0.004,15.312,0,17.065l0.028,11.522c0.002,0.842,0.338,1.648,0.935,2.242s1.405,0.927,2.247,0.925 l21.64-0.054l0.014,5.899c0.004,1.286,0.781,2.442,1.971,2.931c1.189,0.487,2.557,0.21,3.46-0.703L44.29,25.694 C45.926,24.043,45.92,21.381,44.275,19.739z');
+        pathGroup.appendChild(path);
+
+        // テキストを作成
+        const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        textElement.textContent = '送信';
+        textElement.setAttribute('x', 10);
+        textElement.setAttribute('y', 25);
+        textElement.setAttribute('font-size', '10px');
+        textElement.setAttribute('viewBox', '0 0 91.026 91.024');
+        textElement.setAttribute('fill', 'white');
+
+        svg.appendChild(textElement);
+
+        return svg;
+    }
+
+    /**
+     * コメントを閉じる Arrowボタンを作成する
+     */
+    createArrowOfClosingComment() {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add('arrow-svg-close');
+        // svg.setAttribute('fill', '#67a7cc'); fillはCSSで指定する。
+        svg.setAttribute('version', '1.1');
+        svg.setAttribute('id', 'Capa_2_' + this.id);
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        svg.setAttribute('width', '60px');
+        svg.setAttribute('height', '60px');
+        svg.setAttribute('viewBox', '0 0 45.513 45.512');
+        svg.setAttribute('xml:space', 'preserve');
+        svg.setAttribute('transform', 'rotate(90)');
+
+        // バックグラウンドを作成
+        const bgCarrier = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        bgCarrier.setAttribute('id', 'SVGRepo_bgCarrier');
+        bgCarrier.setAttribute('stroke-width', '0');
+        svg.appendChild(bgCarrier);
+
+        // トレーサー
+        const tracerCarrier = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        tracerCarrier.setAttribute('id', 'SVGRepo_tracerCarrier');
+        tracerCarrier.setAttribute('stroke-linecap', 'round');
+        tracerCarrier.setAttribute('stroke-linejoin', 'round');
+        svg.appendChild(tracerCarrier);
+
+        // アイコングループを作成
+        const iconCarrier = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        iconCarrier.setAttribute('id', 'SVGRepo_iconCarrier');
+        svg.appendChild(iconCarrier);
+
+        // パスグループを作成
+        const pathGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        iconCarrier.appendChild(pathGroup);
+
+        // パスを作成
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M44.275,19.739L30.211,5.675c-0.909-0.909-2.275-1.18-3.463-0.687c-1.188,0.493-1.959,1.654-1.956,2.938l0.015,5.903 l-21.64,0.054C1.414,13.887-0.004,15.312,0,17.065l0.028,11.522c0.002,0.842,0.338,1.648,0.935,2.242s1.405,0.927,2.247,0.925 l21.64-0.054l0.014,5.899c0.004,1.286,0.781,2.442,1.971,2.931c1.189,0.487,2.557,0.21,3.46-0.703L44.29,25.694 C45.926,24.043,45.92,21.381,44.275,19.739');
+        pathGroup.appendChild(path);
+
+        // テキストを作成
+        const textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        textElement.textContent = '閉じる';
+        textElement.setAttribute('x', -32);
+        textElement.setAttribute('y', -32);
+        textElement.setAttribute('font-size', '10px');
+        textElement.setAttribute('viewBox', '0 0 91.026 91.024');
+        textElement.setAttribute('fill', 'white');
+        textElement.setAttribute('transform', 'rotate(270)');
+
+        svg.appendChild(textElement);
+
+        return svg;
     }
 
     /**
@@ -504,34 +615,45 @@ export class Post {
      * いいねボタンを作成する。
      */
     createLikeButton(loggedInUser, isLiked) {
-        const likeButton = document.createElement('button');
+        const likeButton = document.createElement('div');
         likeButton.classList.add('like-button');
-        likeButton.textContent = 'いいね';
 
-        const likeHeart = document.createElement('i');
-        if (isLiked) {
-            likeButton.classList.add('liked');
-            likeHeart.classList.add('fa-solid', 'fa-heart');
-        } else {
-            likeButton.classList.remove('liked');
-            likeHeart.classList.add('fa-regular', 'fa-heart');
-        }
+        const likeHeart = this.createLikeIcon(isLiked);
         likeButton.appendChild(likeHeart);
-        likeButton.addEventListener('click', async () => {
-            if (isLiked) {
-                likeButton.classList.remove('liked');
+
+        const classNameForLikeButton = isLiked ? 'fa-solid' : 'fa-regular';
+        likeHeart.classList.add(classNameForLikeButton, 'fa-heart');
+        likeButton.appendChild(likeHeart);
+
+        likeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggleLike(loggedInUser.id);
+            if (this.likes.includes(loggedInUser.id)) {
                 likeHeart.classList.remove('fa-solid');
                 likeHeart.classList.add('fa-regular');
-                this.removeLike(loggedInUser.id);
             } else {
-                likeButton.classList.add('liked');
                 likeHeart.classList.remove('fa-regular');
                 likeHeart.classList.add('fa-solid');
-                this.addLike(loggedInUser.id);
             }
         });
 
         return likeButton;
+    }
+
+    /**
+     * いいねのアイコンを作成する。
+     */
+    createLikeIcon(isLiked) {
+        const likeHeart = document.createElement('i');
+
+        if (isLiked) {
+            likeHeart.classList.add('fa-solid', 'fa-heart', 'post-icon');
+        } else {
+            likeHeart.classList.add('fa-regular', 'fa-heart', 'post-icon');
+        }
+        likeHeart.setAttribute('title', 'いいね');
+
+        return likeHeart;
     }
 
     /**
@@ -546,9 +668,40 @@ export class Post {
     }
 
     /**
+     * 一時保存ボタンを作成する。
+     */
+    createSaveButton(loggedInUser) {
+        const saveButton = document.createElement('div');
+        saveButton.classList.add('save-button');
+
+        const iconOfSaveButton = document.createElement('i');
+        const classNameForIcon = loggedInUser.savedPosts.includes(this.id) ? 'fa-solid' : 'fa-regular';
+        iconOfSaveButton.classList.add(classNameForIcon, 'fa-bookmark', 'save-icon', 'post-icon');
+        iconOfSaveButton.setAttribute('title', '保存');        
+
+        saveButton.appendChild(iconOfSaveButton);
+
+        // 一時保存ボタンのイベントリスナーを追加する
+        saveButton.addEventListener('click', () => {
+            console.log('This is user before savePost: ', loggedInUser);
+            if (loggedInUser.savedPosts.includes(this.id)) {
+                iconOfSaveButton.classList.remove('fa-solid', 'fa-bookmark');
+                iconOfSaveButton.classList.add('fa-regular', 'fa-bookmark');
+                loggedInUser = this.unsavePost(loggedInUser);
+            } else {
+                iconOfSaveButton.classList.remove('fa-regular', 'fa-bookmark');
+                iconOfSaveButton.classList.add('fa-solid', 'fa-bookmark');
+                loggedInUser = this.savePost(loggedInUser);
+            }
+            console.log('This is user after savePost: ', loggedInUser);
+        });
+
+        return saveButton;
+    }
+
+    /**
      * コメントするボタンや、コメントインプット用のdivを作成する。
      */
-    // createDivForInputAndCommentButton(loggedInUser, comments, divForCommentInput) {
     createDivForInputAndCommentButton(loggedInUser, comments) {
 
         // コメントに関するTextareaとボタンを格納するdivを取得
@@ -575,12 +728,43 @@ export class Post {
      * コメントモダルを閉じるボタンを作成する。
      */
     createCloseButtonForCommentModal() {
-        const closeButton = document.createElement('button');
+        const closeButton = document.createElement('div');
         closeButton.setAttribute('data-bs-dismiss', 'modal');
         closeButton.setAttribute('aria-label', 'Close');
-        closeButton.classList.add('col-2');
-        closeButton.textContent = '閉じる';
+        closeButton.classList.add('col-2', 'arrow-container');
+
+        // コメントモダルを閉じるアイコンを作成
+        const closeSvg = this.createArrowOfClosingComment();
+        closeButton.appendChild(closeSvg);
 
         return closeButton;
+    }
+
+    /**
+     * コメントタイトルを作成する。
+     * クリックするとコメントリストがモダルとして表示される。
+     */
+    createCommentTitle() {
+        const commentTitle = document.createElement('div');
+        commentTitle.classList.add('comment-title-' + this.id);
+        commentTitle.id = 'comment-title-' + this.id;
+        commentTitle.setAttribute('data-bs-toggle', 'modal');
+        commentTitle.setAttribute('data-bs-target', `#comments-list-modal-${this.id}`);
+
+        const commentTitleText = this.createIconForCommentTitle();
+        commentTitle.appendChild(commentTitleText);
+
+        return commentTitle;
+    }
+
+    /**
+     * コメントタイトル内のアイコンを作成する。
+     */
+    createIconForCommentTitle() {
+        const iconForCommentTitle = document.createElement('i');
+        iconForCommentTitle.classList.add('fa-solid', 'fa-reply', 'post-icon');
+        iconForCommentTitle.setAttribute('title', 'コメント');
+
+        return iconForCommentTitle;
     }
 }

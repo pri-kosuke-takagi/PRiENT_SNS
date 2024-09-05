@@ -21,3 +21,6 @@ https://placehold.co を使用。
 - sea.jpg:https://www.photo-ac.com/main/detail/30255628&title=%E7%8A%AC%E5%90%A0%E5%9F%BC%E3%81%AB%E3%81%A6
 
 - plant_2407.jpg: https://www.photo-ac.com/main/detail/30469960&title=%E8%A6%B3%E8%91%89%E6%A4%8D%E7%89%A92407#goog_rewarded
+
+- arrow svg (コメント送信)
+https://www.svgrepo.com/svg/40110/right-arrow?edit=true

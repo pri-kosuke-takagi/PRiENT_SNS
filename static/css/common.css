@@ -5,7 +5,7 @@
   --secondary: #e1edf5;
   --near-white: #f5f8fa;
   --main-white: #ffffff;
-  --main-black: #000000;
+  --main-black: #212121;
   --main-dark: #333333;
   --secondary-dark: #2d2d2d;
   --third-dark: #1a1a1a;
@@ -27,6 +27,10 @@
   --card-color: var(--secondary);
   --card-color-dark: rgba(255, 255, 255, 0.8);
   --alert-color: orange;
+  --main-grey: #A5A5A7;
+  --main-success: #82C19F;
+  --button-main: #605DEC;
+  --button-focus-main: #3D3ACE;
 }
 
 body,
@@ -39,6 +43,7 @@ html {
   color: var(--main-black);
 }
 
+/* ページ全体のコンテナ */
 .container-div {
   display: grid;
   grid-template-columns: 1fr 4fr;
@@ -46,12 +51,21 @@ html {
   padding: 2rem;
 }
 
-.navbar-nav .nav-link,
+/* ヘッダのコンテナ */
+#header-div {
+}
+
+/* ナビゲーションバー （Header）*/
+.header-navbar {
+  position: fixed;
+}
+
+.header-navbar .nav-link,
 .navbar-brand {
   color: var(--main-black);
 }
 
-.navbar-nav .nav-link.active {
+.header-navbar .nav-link.active {
   color: var(--main-white);
   font-weight: bolder;
 }
@@ -65,6 +79,7 @@ main {
   width: 100%;
 }
 
+/* フッター */
 footer {
   grid-column-start: 1;
   grid-column-end: 3;
@@ -88,18 +103,7 @@ footer {
   gap: 1rem;
 }
 
-/* #footer-navbar-nav .nav-link {
-  color: var(--main-black);
-} */
-
-/* #footer-navbar-nav .nav-link.active {
-  color: var(--main);
-} */
-
-/* #footer-div-for-project-name {
-  padding-right: 0.5rem;
-} */
-
+/* アラートメッセージ */
 #alert-message {
   color: var(--alert-color);
 }
@@ -108,7 +112,7 @@ footer {
 @media (prefers-color-scheme: dark) {
   body,
   html {
-    background: var(--background-dark);
+    background: var(--main-black);
     color: var(--main-white);
     min-height: 100%;
   }
