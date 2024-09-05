@@ -161,9 +161,9 @@ export class Post {
      * 投稿をHTML要素に変換して表示させるメソッド (保存一覧画面用)
      */
     createSavedPostElement(loggedInUser, user, comments, postCard) {
-        const isLiked = this.likes.includes(user.id);
+        const isLiked = this.likes.includes(loggedInUser.id);
         const postDiv = document.createElement('div');
-        postDiv.classList.add(['post']);
+        postDiv.classList.add('post-main-div');
 
         // Title部分を作成
         const postTitle = this.createDivForTitle();
@@ -178,20 +178,16 @@ export class Post {
         const postContent = document.createElement('p');
         postContent.textContent = this.content;
 
-        // いいねと保存ボタンを格納するDiv
+        // いいねと一時保存を格納するDivを作成
         const likesAndSaveDiv = document.createElement('div');
-        likesAndSaveDiv.classList.add('likes-div', 'd-flex', 'gap-2');
+        likesAndSaveDiv.classList.add('likes-div');
+        likesAndSaveDiv.id = 'likes-and-save-div-' + this.id;
 
         // いいねボタン部分を作成
         const likeButton = this.createLikeButton(loggedInUser, isLiked);
 
-        // いいね数が0より大きい場合は表示する
-        const likesCount = this.createLikeCountElement(isLiked);
-
         // 一時保存ボタンを作成する
-        const saveButton = document.createElement('button');
-        saveButton.classList.add('save-button');
-        saveButton.textContent = '保存一覧から削除';
+        const saveButton = this.createSaveButton(loggedInUser);
 
         // 押されたら該当のPostが表示されないようにする。
         saveButton.addEventListener('click', () => {
@@ -207,7 +203,6 @@ export class Post {
         });
 
         likesAndSaveDiv.appendChild(likeButton);
-        likesAndSaveDiv.appendChild(likesCount);
         likesAndSaveDiv.appendChild(saveButton);
 
         postDiv.appendChild(postTitle);

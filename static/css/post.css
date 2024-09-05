@@ -10,6 +10,15 @@
   padding: 1rem;
 }
 
+/* すべてのPostを囲むコンテナ (保存ページ用) */
+#saved-posts-div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-items: center;
+  padding: 1rem;
+}
+
 /* 各Postのコンテナ */
 .post-card {
   display: grid;

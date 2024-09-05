@@ -17,7 +17,7 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
     posts.forEach((post, index) => {
 
         const postCard = document.createElement('div');
-        postCard.classList.add(`post-card-${post.id}`);
+        postCard.classList.add(`post-card-${post.id}`, 'post-card');
 
         // 必須パラメータがtrueでない場合は、投稿を表示しない。
         if (!post || !post.title || !post.content || !post.author) {
