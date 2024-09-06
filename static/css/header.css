@@ -9,6 +9,21 @@
   padding: 1rem;
 }
 
+/* ナビゲーションバー （Header）*/
+.header-navbar {
+  position: fixed;
+}
+
+.header-navbar .nav-link,
+.navbar-brand {
+  color: var(--main-black);
+}
+
+.header-navbar .nav-link.active {
+  color: var(--main-white);
+  font-weight: bolder;
+}
+
 /* navbarのスタイル */
 .navbar-collapse {
   display: grid;
@@ -82,7 +97,7 @@
 }
 
 .search-modal.invisible-now {
-    animation: fadeOut 1s ease-in-out;
+  animation: fadeOut 1s ease-in-out;
 }
 
 .search-button-in-header:hover {
@@ -125,14 +140,10 @@
 }
 
 #search-results .user-div .button-to-follow {
-  /* padding: 1rem; */
 }
 
 /* SearchModalのクローズボタン */
 .button-to-close-search-modal {
-  /* position: absolute;
-  top: 10px;
-  right: 10px; */
   cursor: pointer;
 }
 
@@ -141,5 +152,11 @@
   .modal-content {
     background: var(--main-black);
     color: var(--main-white);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-navbar {
+    position: unset
   }
 }

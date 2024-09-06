@@ -134,10 +134,21 @@ function createNavbar() {
     navbar.classList.add('navbar', 'navbar-expand-sm', 'flex-column', 'header-navbar');
     navbar.id = 'header-navbar';
 
+    // ナビゲーションアイテム
+    const navItems = [
+        { href: '/views/html/home.html', text: 'Home', isAboutUser: false },
+        { href: '/views/html/create_post.html', text: '投稿作成', isAboutUser: false },
+        { href: '/views/html/saved_posts.html', text: '保存済み投稿', isAboutUser: false },
+        { href: '/views/html/profile.html', text: 'ユーザプロファイル', isAboutUser: false },
+        { href: '/views/html/register.html', text: 'ユーザ登録', isAboutUser: true },
+        { href: '/views/html/login.html', text: 'ログアウト', isAboutUser: true },
+        { href: '#', text: `${classifiedLoggedInUser.accountName}`, dropdown: true, isAboutUser: false },
+    ];
+
     // ナビバーブランド
     const brand = document.createElement('a');
     brand.classList.add('navbar-brand');
-    brand.href = '#';
+    brand.href = navItems[0].href;
     brand.textContent = 'PRiENT SNS';
     navbar.appendChild(brand);
 
@@ -162,17 +173,6 @@ function createNavbar() {
     const nav = document.createElement('ul');
     nav.classList.add('navbar-nav', 'me-auto', 'mt-2', 'mt-lg-0', 'flex-column');
     collapse.appendChild(nav);
-
-    // ナビゲーションアイテム
-    const navItems = [
-        { href: '/views/html/home.html', text: 'Home', isAboutUser: false },
-        { href: '/views/html/create_post.html', text: '投稿作成', isAboutUser: false },
-        { href: '/views/html/saved_posts.html', text: '保存済み投稿', isAboutUser: false },
-        { href: '/views/html/profile.html', text: 'ユーザプロファイル', isAboutUser: false },
-        { href: '/views/html/register.html', text: 'ユーザ登録', isAboutUser: true },
-        { href: '/views/html/login.html', text: 'ログアウト', isAboutUser: true },
-        { href: '#', text: `${classifiedLoggedInUser.accountName}`, dropdown: true, isAboutUser: false },
-    ];
 
     navItems.forEach(item => {
 

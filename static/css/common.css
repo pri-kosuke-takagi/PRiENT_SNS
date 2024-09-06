@@ -52,25 +52,6 @@ html {
   padding: 2rem;
 }
 
-/* ヘッダのコンテナ */
-#header-div {
-}
-
-/* ナビゲーションバー （Header）*/
-.header-navbar {
-  position: fixed;
-}
-
-.header-navbar .nav-link,
-.navbar-brand {
-  color: var(--main-black);
-}
-
-.header-navbar .nav-link.active {
-  color: var(--main-white);
-  font-weight: bolder;
-}
-
 main {
   display: flex;
   flex-direction: column;
@@ -140,8 +121,32 @@ footer {
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
+  .container-div {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    grid-template-columns: 1fr;
+    grid-column: auto;
+    justify-self: center;
+  }
+
   #footer-div {
     grid-template-columns: 1fr;
-    justify-items: auto;
+    justify-items: center;
+    gap: 2rem;
+  }
+
+  #footer-div-for-pages {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #footer-navbar-nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    justify-items: center;
   }
 }
