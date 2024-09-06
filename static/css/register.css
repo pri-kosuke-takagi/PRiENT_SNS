@@ -69,3 +69,16 @@
     grid-column-end: 3;
     justify-self: center;
 }
+
+#button-to-register {
+  cursor: pointer;
+  border: solid var(--main-success) 2px;
+  border-radius: 5px;
+  color: var(--main-white);
+  background-color: var(--main-success);
+  padding: 0.4rem 1rem;
+}
+
+#button-to-register:hover {
+  filter: opacity(0.8);
+}

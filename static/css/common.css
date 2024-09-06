@@ -80,19 +80,25 @@ main {
   width: 100%;
 }
 
+/* ボタンの共通スタイル */
+button {
+  white-space: nowrap
+}
+
 /* フッター */
 footer {
   grid-column: 1 / last-line;
   align-self: self-end;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
 }
 
 #footer-div {
   display: grid;
-  grid-template-columns: 1fr;
   justify-items: end;
   height: 100%;
   width: 100%;
-  padding: 0 2rem;
+  grid-column: 5 / 11;
 }
 
 #footer-div-for-pages {

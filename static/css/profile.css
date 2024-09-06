@@ -4,47 +4,13 @@
 #profile-div {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 4rem;
+  gap: 1rem;
   justify-content: center;
   align-items: center;
   padding: 1rem;
 }
 
-/* Postの上のユーザプロファイル画像 */
-.author-picture {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-}
-
-/* Postの画像 */
-.post-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Postの時間 */
-.posted-date {
-  font-size: 0.6rem;
-}
-
-/* Postのいいね */
-.like-button {
-  cursor: pointer;
-}
-
-/* コメントのタイトル */
-[class^="comment-title-"] {
-  cursor: pointer;
-}
-
-/* Postのコメント */
-[class^="comment-li-"] {
-  list-style-type: none;
-  font-size: small;
-}
-
+/* profileページのForm */
 #form-to-change-profile {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -120,25 +86,68 @@
 }
 
 #div-for-buttons {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
 #submit-button-div {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.button-to-submit-update-of-profile {
+  cursor: pointer;
+  border: solid var(--main-success) 2px;
+  border-radius: 5px;
+  color: var(--main-white);
+  background-color: var(--main-success);
+  padding: 0.4rem 1rem;
+}
+
+.button-to-submit-update-of-profile:hover {
+  filter: opacity(0.8);
+}
+
+.button-to-cancel-to-submit {
+  cursor: pointer;
+  border: solid var(--main-grey) 2px;
+  border-radius: 5px;
+  color: var(--main-white);
+  background-color: var(--main-grey);
+  padding: 0.4rem 1rem;
+}
+
+.button-to-cancel-to-submit:hover {
+  filter: opacity(0.8);
 }
 
 #cancel-button-div {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: center;
 }
 
+/* プロファイルページの過去投稿部分 */
+.div-for-title-of-post {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+}
 
+.title-of-post {
+  font-size: x-large;
+  margin: 0;
+}
+
+.div-for-title-of-post hr {
+  margin: 0;
+}

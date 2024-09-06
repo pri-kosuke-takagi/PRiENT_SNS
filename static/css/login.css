@@ -1,0 +1,12 @@
+#button-to-login {
+  cursor: pointer;
+  border: solid var(--main-success) 2px;
+  border-radius: 5px;
+  color: var(--main-white);
+  background-color: var(--main-success);
+  padding: 0.4rem 1rem;
+}
+
+#button-to-login:hover {
+  filter: opacity(0.8);
+}

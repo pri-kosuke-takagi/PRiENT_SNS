@@ -16,13 +16,11 @@ const handleLogin = (e, users) => {
     if (loggedInUser) {
         // ログインに成功した場合は、ユーザデータをセッションストレージに保存し、
         // ホーム画面にリダイレクトする。
-        alert('Login successful');
         window.location.href = '/views/html/home.html';
     } else {
         // ログインに失敗した場合は、エラーメッセージを表示する。
         alertMessage.textContent = 'Invalid email or password. Please try again.';
     }
-
 }
 
 window.onload = async () => {

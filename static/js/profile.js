@@ -105,6 +105,25 @@ const displayMyInformation = (classifiedLoggedInUser) => {
 }
 
 /**
+ * ユーザの投稿のタイトルを表示する関数。
+ */
+const displayTitleOfPosts = () => {
+    const divForTitleOfPost = document.createElement('div');
+    divForTitleOfPost.classList.add('div-for-title-of-post');
+
+    const titleOfPost = document.createElement('p');
+    titleOfPost.classList.add('title-of-post');
+    titleOfPost.textContent = '過去の投稿一覧';
+    divForTitleOfPost.appendChild(titleOfPost);
+
+    // 水平線を追加
+    const hr = document.createElement('hr');
+    divForTitleOfPost.appendChild(hr);
+
+    profileDiv.appendChild(divForTitleOfPost);
+}
+
+/**
  * 自分自身の投稿を表示する関数。
  * @param {*} posts 
  * @param {*} comments 
@@ -183,6 +202,8 @@ window.onload = async () => {
     console.log('This is comments: ', comments);
 
     displayMyInformation(classifiedLoggedInUser);
+
+    displayTitleOfPosts();
 
     displayMYOwnPosts(posts, comments, classifiedLoggedInUser);
 

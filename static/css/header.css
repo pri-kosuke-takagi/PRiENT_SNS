@@ -1,5 +1,23 @@
 @import "./common.css";
 
+/* ヘッダーのスタイル */
+#header-div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* navbarのスタイル */
+.navbar-collapse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+}
+
 /* 検索ボタン */
 .search-button-in-header {
   width: 100%;

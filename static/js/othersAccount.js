@@ -1,4 +1,5 @@
 import { fetchUserSampleData } from "/static/js/utils/fetchUtils/fetchUserSampleData.js";
+import { fetchPostSampleData } from "/static/js/utils/fetchUtils/fetchPostSampleData.js";
 import { Post } from "/static/js/classes/PostClass.js";
 import { User } from "/static/js/classes/UserClass.js";
 import { checkIfUserLoggedIn } from "/static/js/utils/checkIfUserLoggedIn.js";
@@ -24,9 +25,14 @@ const displayPosts = (friend, loggedInUser) => {
     const posts = JSON.parse(localStorage.getItem('posts'));
     // friend.postsは、friendが投稿した投稿のIDの配列。
     friend.posts.forEach(post => {
+        const divForPost = document.createElement('div');
+        divForPost.classList.add('post-card');
+
         const classifiedPost = getPostByKey(post, 'id', posts, true);
         const postElement = classifiedPost.createPostElement(loggedInUser);
-        usersPostsElement.appendChild(postElement);
+
+        divForPost.appendChild(postElement);
+        usersPostsElement.appendChild(divForPost);
     });
 }
 
