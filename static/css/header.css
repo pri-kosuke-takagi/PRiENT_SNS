@@ -149,14 +149,15 @@
 
 /* ここからダークテーマ用設定 */
 @media (prefers-color-scheme: dark) {
+
+  .header-navbar .nav-link,
+  .navbar-brand {
+    color: var(--main-white);
+  }
+
   .modal-content {
     background: var(--main-black);
     color: var(--main-white);
   }
 }
 
-@media (max-width: 768px) {
-  .header-navbar {
-    position: unset
-  }
-}
