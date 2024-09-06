@@ -156,7 +156,7 @@ const displayMYOwnPosts = (posts, comments, classifiedLoggedInUser) => {
 
         console.log('This is classifiedPost: ', classifiedPost);
 
-        const postElement = classifiedPost.createPostElement(classifiedLoggedInUser, classifiedUser, comments);
+        const postElement = classifiedPost.createPostElementForMyPage(classifiedLoggedInUser, classifiedUser, comments);
 
         // コメント部分を作成
         const commentsDiv = classifiedPost.createDivForComments(classifiedLoggedInUser, classifiedUser, comments);
@@ -164,7 +164,7 @@ const displayMYOwnPosts = (posts, comments, classifiedLoggedInUser) => {
 
         // 投稿者の情報と投稿の情報を一つのカードにまとめる。
         const postCard = document.createElement('div');
-        postCard.classList.add('post-card');
+        postCard.classList.add('post-card', `post-card-${post.id}`);
         postCard.appendChild(postElement);
 
         postsDivOfProfile.appendChild(postCard);

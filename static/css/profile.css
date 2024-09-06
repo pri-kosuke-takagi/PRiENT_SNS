@@ -134,6 +134,14 @@
 }
 
 /* プロファイルページの過去投稿部分 */
+#posts-div-of-profile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-items: center;
+  padding: 1rem;
+}
+
 .div-for-title-of-post {
   display: grid;
   grid-template-columns: 1fr;

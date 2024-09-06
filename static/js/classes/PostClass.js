@@ -762,4 +762,84 @@ export class Post {
 
         return iconForCommentTitle;
     }
+
+    /**
+     * 投稿をHTML要素に変換して表示させるメソッド (プロファイルページの過去投稿用)
+     */
+    createPostElementForMyPage(loggedInUser) {
+        const isLiked = this.likes.includes(loggedInUser.id);
+    
+        const postDiv = document.createElement('div');
+        postDiv.classList.add('post-main-div');
+
+        // Title部分を作成
+        const postTitle = this.createDivForTitle();
+
+        // 画像部分を作成
+        const postImage = document.createElement('img');
+        if (this.imageUrl) {
+            this.insertImageToElement(postImage, this.imageUrl);
+        }
+
+        // 本文部分を作成
+        const postContent = document.createElement('p');
+        postContent.textContent = this.content;
+
+        // いいねと一時保存を格納するDivを作成
+        const likesAndSaveDiv = document.createElement('div');
+        likesAndSaveDiv.classList.add('likes-div-of-profile');
+        likesAndSaveDiv.classList.add('d-flex', 'justify-content-start', 'align-items-center', 'gap-3');
+        likesAndSaveDiv.id = 'likes-and-save-div-' + this.id;
+
+        // 自分用のページで自分自身の投稿を表示するため、いいねボタン部分は表示しない。
+
+        // 自分用のページのため、いいね数を表示する。
+        // いいね数が0より大きい場合は表示する
+        const likesCount = this.createLikeCountElement(isLiked);
+        likesAndSaveDiv.appendChild(likesCount);
+
+        // コメントタイトルを作成し、コメントリストを表示するように。
+        const commentTitle = this.createCommentTitle();
+
+        // 投稿削除ボタンを作成する
+        const deleteButton = this.createDeleteButton();
+
+
+        // likesAndSaveDiv.appendChild(likeButton);
+        likesAndSaveDiv.appendChild(commentTitle);
+        likesAndSaveDiv.appendChild(deleteButton);
+
+        postDiv.appendChild(postTitle);
+        postDiv.appendChild(postImage);
+        postDiv.appendChild(postContent);
+        postDiv.appendChild(likesAndSaveDiv);
+
+        return postDiv;
+    }
+
+    /**
+     * 投稿削除ボタンを作成する。
+     */
+    createDeleteButton() {
+        const deleteButton = document.createElement('div');
+        deleteButton.classList.add('delete-button');
+
+        const deleteIcon = document.createElement('i');
+        deleteIcon.classList.add('fa-solid', 'fa-trash', 'post-icon');
+        deleteIcon.setAttribute('title', '削除');
+        deleteButton.appendChild(deleteIcon);
+
+        deleteButton.addEventListener('click', (e) => {
+
+            e.preventDefault();
+
+            const posts = JSON.parse(localStorage.getItem('posts'));
+            const updatedPosts = posts.filter(p => p.id !== this.id);
+            localStorage.setItem('posts', JSON.stringify(updatedPosts));
+
+            window.location.reload();
+        });
+
+        return deleteButton;
+    }
 }

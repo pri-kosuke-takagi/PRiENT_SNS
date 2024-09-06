@@ -144,6 +144,11 @@
   font-size: small;
 }
 
+/* 投稿削除ボタン */
+.delete-button {
+  cursor: pointer;
+}
+
 /* ここからダークテーマ用設定 */
 @media (prefers-color-scheme: dark) {
 

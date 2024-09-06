@@ -11,8 +11,9 @@ const postTitle = document.getElementById('post-title');
 const postImage = document.getElementById('image-preview')
 const imageInput = document.getElementById('image-input');
 const postButton = document.getElementById('post-button');
-const postContent = document.getElementById('post-content');
+const postContent = document.getElementById('post-content-input');
 const postForm = document.getElementById('post-form');
+const alertMessage = document.getElementById('alert-message');
 
 /**
  * 画像ファイルを受け取り、そのファイルのURLをプレビューに挿入する関数。 
@@ -38,25 +39,76 @@ const convertToBase64 = async (file) => {
         reader.readAsDataURL(file);
     });
 }
+
+/**
+ * 投稿データチェック後にエラーメッセージを表示する関数。
+ */
+const displayErrorMessage = (errorMessages) => {
+    alertMessage.innerHTML = '';
+    errorMessages.forEach(message => {
+        const p = document.createElement('p');
+        p.textContent = message;
+        alertMessage.appendChild(p);
+    });
+}
+
+/**
+ * 投稿データに不足がないかチェックする関数。
+ */
+const checkIfPostDataIsMissing = () => {
+    let title, content, image;
+    let errorMessages = [];
+    try {
+        title = postTitle.value ? postTitle.value.trim() : errorMessages.push('タイトルが入力されていません。');
+        content = postContent.value ? postContent.value.trim() : errorMessages.push('投稿文が入力されていません。');
+        image = imageInput.files[0] ? imageInput.files[0] : errorMessages.push('画像がアップロードされていません。');
+
+    } catch (error) {
+        console.error('Error in checkIfPostDataIsMissing: ', error);
+        errorMessages.push('エラーが発生しました。');
+    }
+
+    return errorMessages;
+}
+
 /**
  * 投稿ボタンがクリックされた時の処理を行う関数。
  */
 const handlePostButtonClicked = async (e, posts, user) => {
-    console.log('Post submitted');
-    const fileData = imageInput.files[0];
-    let imageData = await convertToBase64(fileData);
-    // imageDataの例は、data\posts.json のid:100の画像データを参照。画像データをbase64に変換するためすごく長くなる。
-    console.log('This is imageData base64ed: ', imageData);
-    const post = new Post(posts.length + 1, user.id, postTitle.value, postContent.value, imageData, new Date().getTime(), [], []);
-    const createdPost = post.createPost();
-    console.log('This is createdPost: ', createdPost);
+    try {
 
-    if (!createdPost && !createdPost.title && !createdPost.content && !createdPost.author) {
-        return;
+        const fileData = imageInput.files[0];
+
+        const errorMessages = checkIfPostDataIsMissing();
+        if (errorMessages.length > 0) {
+            displayErrorMessage(errorMessages);
+            return;
+        }
+
+        // imageDataの例は、data\posts.json のid:100の画像データを参照。画像データをbase64に変換するためすごく長くなる。
+        let imageData = await convertToBase64(fileData);
+        console.log('This is imageData base64ed: ', imageData);
+
+        const post = new Post(posts.length + 1, user.id, postTitle.value, postContent.value, imageData, new Date().getTime(), [], []);
+
+        const createdPost = post.createPost();
+
+        console.log('This is createdPost: ', createdPost);
+
+        if (!createdPost && !createdPost.title && !createdPost.content && !createdPost.author) {
+            return;
+        }
+
+        posts.push(createdPost);
+
+        localStorage.setItem('posts', JSON.stringify(posts));
+
+        location.href = '/views/html/home.html';
+
+    } catch (error) {
+        console.error('Error in handlePostButtonClicked: ', error);
+        displayErrorMessage(['エラーが発生しました。']);
     }
-
-    posts.push(createdPost);
-    localStorage.setItem('posts', JSON.stringify(posts));
 }
 
 window.onload = async () => {

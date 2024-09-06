@@ -75,12 +75,12 @@ const validateForm = () => {
         })
     }
 
-    // if (!checkPassword()) {
-    //     errorMessages.push({
-    //         code: 2,
-    //         message: 'パスワードが違うか空白です。'
-    //     })
-    // }
+    if (!checkPassword()) {
+        errorMessages.push({
+            code: 2,
+            message: 'パスワードが違うか空白です。'
+        })
+    }
 
     // 利用規約に同意しているかどうかのバリデーション
     if (!agreeWithTermsInput.checked) {

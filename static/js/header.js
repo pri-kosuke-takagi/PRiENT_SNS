@@ -44,7 +44,7 @@ const handleSearchButtonClicked = (e, classifiedLoggedInUser) => {
     headerDiv.after(searchModal);
 
     const searchModalButtons = document.createElement('div');
-    searchModalButtons.classList.add('search-buttons-div', 'd-flex', 'gap-1', 'align-items-center', 'p-2', 'w-100');
+    searchModalButtons.classList.add('search-buttons-div', 'd-flex', 'gap-4', 'align-items-center', 'p-2', 'w-100');
 
     const searchModalButtonsDiv = document.createElement('div');
     searchModalButtonsDiv.classList.add('flex-grow-1', 'd-flex', 'align-items-center', 'justify-content-center', 'gap-2');
@@ -56,9 +56,8 @@ const handleSearchButtonClicked = (e, classifiedLoggedInUser) => {
     searchInput.placeholder = 'Search...';
     searchModalButtonsDiv.appendChild(searchInput);
 
-    const closeModalButton = document.createElement('span');
-    closeModalButton.textContent = '閉じる';
-    closeModalButton.classList.add('button-to-close-search-modal');
+    const closeModalButton = document.createElement('i');
+    closeModalButton.classList.add('button-to-close-search-modal', 'fa-solid', 'fa-x');
     searchModalButtons.appendChild(searchModalButtonsDiv);
     searchModalButtons.appendChild(closeModalButton);
 
