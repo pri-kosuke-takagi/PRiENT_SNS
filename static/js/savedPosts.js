@@ -9,11 +9,33 @@ import { turnUserIntoUserClass } from "./utils/classTransfers/turnUserIntoUserCl
 
 const savedPostsDiv = document.querySelector('#saved-posts-div');
 
+/**
+ * 保存した投稿がない場合にその旨を表示する関数。
+ */
+const displayNoSavedPosts = () => {
+    const noSavedPostsDiv = document.createElement('div');
+    noSavedPostsDiv.classList.add('no-saved-posts-div', 'd-flex', 'justify-content-center', 'align-items-center', 'flex-column');
+
+    const noSavedPostsMessage = document.createElement('p');
+    noSavedPostsMessage.classList.add('no-saved-posts-message', 'alert-message');
+    noSavedPostsMessage.textContent = 'まだ保存された投稿がありません。';
+
+    noSavedPostsDiv.appendChild(noSavedPostsMessage);
+
+    savedPostsDiv.appendChild(noSavedPostsDiv);
+}
+
+/**
+ * ログインしているユーザの保存された投稿を表示する関数。
+ */
 const displayPosts = (posts, classifiedLoggedInUser) => {
     const userIdOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.id : null;
     const followsOfLoggedInUser = classifiedLoggedInUser ? classifiedLoggedInUser.follows : null;
 
     savedPostsDiv.innerHTML = '';
+
+    let savedPostsCounter = 0;
+
     posts.forEach((post, index) => {
 
         const postCard = document.createElement('div');
@@ -55,7 +77,13 @@ const displayPosts = (posts, classifiedLoggedInUser) => {
         postCard.appendChild(postElement);
 
         savedPostsDiv.appendChild(postCard);
+
+        savedPostsCounter++;
     });
+
+    if (savedPostsCounter === 0) {
+        displayNoSavedPosts();
+    }
 }
 
 window.onload = async () => {

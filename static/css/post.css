@@ -117,16 +117,6 @@
   cursor: pointer;
 }
 
-/* .arrow-container span { */
-  /* position: absolute;
-  top: -10px;
-  left: 10px; */
-/* } */
-
-.arrow-svg-close {
-  fill: var(--main-grey)
-}
-
 /* コメントのモダル */
 .modal-content {
   background: var(--background);
@@ -142,6 +132,24 @@
 [class^="comment-li-"] {
   list-style-type: none;
   font-size: small;
+}
+
+.arrow-svg-send-comment {
+  fill: var(--main);
+}
+
+.arrow-svg-send-comment:hover {
+  opacity: 0.8;
+}
+
+/* .arrow-container span { */
+  /* position: absolute;
+  top: -10px;
+  left: 10px; */
+/* } */
+
+.arrow-svg-close {
+  fill: var(--main-grey)
 }
 
 /* 投稿削除ボタン */

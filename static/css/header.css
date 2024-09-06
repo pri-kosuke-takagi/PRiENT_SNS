@@ -85,15 +85,17 @@
   position: relative;
   height: 80vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   display: grid;
+  background: var(--background-2);
   justify-content: center;
   grid-template-columns: 1fr;
   grid-template-rows: 20% 80%;
-  align-items: center;
   z-index: 100;
   padding: 2rem;
+  margin-top: 1rem;
   animation: fadeIn 1s ease-in-out;
+  box-shadow: var(--main-success) 0px 0px 2px 2px;
+  border-radius: 2px;
 }
 
 .search-modal.invisible-now {
@@ -149,7 +151,6 @@
 
 /* ここからダークテーマ用設定 */
 @media (prefers-color-scheme: dark) {
-
   .header-navbar .nav-link,
   .navbar-brand {
     color: var(--main-white);
@@ -159,5 +160,11 @@
     background: var(--main-black);
     color: var(--main-white);
   }
-}
 
+  .search-modal {
+  }
+
+  .button-to-close-search-modal {
+    color: var(--main-grey);
+  }
+}

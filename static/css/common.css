@@ -12,11 +12,25 @@
   --main-green: #0c6124;
   --dark-green: #073e17;
   --dark-green2: rgba(4, 44, 16);
+  --card-color: var(--secondary);
+  --card-color-dark: rgba(255, 255, 255, 0.8);
+  --alert-color: orange;
+  --main-grey: #A5A5A7;
+  --main-success: #82C19F;
+  --secondary-success: #EDFFF5;
+  --button-main: #605DEC;
+  --button-focus-main: #3D3ACE;
   --background: linear-gradient(
     90deg,
     var(--main) 0%,
     var(--primary) 60%,
     var(--secondary) 100%
+  );
+  --background-2: linear-gradient(
+    90deg,
+    var(--main-success) 0%,
+    var(--secondary-success) 60%,
+    var(--main-white) 100%
   );
   --background-dark: linear-gradient(
     90deg,
@@ -24,13 +38,6 @@
     var(--secondary-dark) 60%,
     var(--main-dark) 100%
   );
-  --card-color: var(--secondary);
-  --card-color-dark: rgba(255, 255, 255, 0.8);
-  --alert-color: orange;
-  --main-grey: #A5A5A7;
-  --main-success: #82C19F;
-  --button-main: #605DEC;
-  --button-focus-main: #3D3ACE;
 }
 
 body,
@@ -92,7 +99,8 @@ footer {
 }
 
 /* アラートメッセージ */
-#alert-message {
+#alert-message,
+.alert-message {
   color: var(--alert-color);
 }
 

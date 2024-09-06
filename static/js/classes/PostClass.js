@@ -412,9 +412,10 @@ export class Post {
      */
     createArrowOfSendingComment() {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('fill', '#67a7cc');
+        // svg.setAttribute('fill', '#67a7cc');
         svg.setAttribute('version', '1.1');
         svg.setAttribute('id', 'Capa_1_' + this.id);
+        svg.classList.add('arrow-svg-send-comment');
         svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
         svg.setAttribute('width', '80px');
